@@ -1,0 +1,503 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8EE975321960257200335EB2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EE975311960257200335EB2 /* Foundation.framework */; };
+		8EE975341960257200335EB2 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EE975331960257200335EB2 /* CoreGraphics.framework */; };
+		8EE975361960257200335EB2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EE975351960257200335EB2 /* UIKit.framework */; };
+		8EE9753C1960257200335EB2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8EE9753A1960257200335EB2 /* InfoPlist.strings */; };
+		8EE9753E1960257200335EB2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EE9753D1960257200335EB2 /* main.m */; };
+		8EE975421960257200335EB2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EE975411960257200335EB2 /* AppDelegate.m */; };
+		8EE975451960257200335EB2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EE975431960257200335EB2 /* Main.storyboard */; };
+		8EE975481960257200335EB2 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EE975471960257200335EB2 /* ViewController.m */; };
+		8EE9754A1960257200335EB2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8EE975491960257200335EB2 /* Images.xcassets */; };
+		8EE975511960257200335EB2 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EE975501960257200335EB2 /* XCTest.framework */; };
+		8EE975521960257200335EB2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EE975311960257200335EB2 /* Foundation.framework */; };
+		8EE975531960257200335EB2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EE975351960257200335EB2 /* UIKit.framework */; };
+		8EE9755B1960257200335EB2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8EE975591960257200335EB2 /* InfoPlist.strings */; };
+		8EE9755D1960257200335EB2 /* KRKmeansTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EE9755C1960257200335EB2 /* KRKmeansTests.m */; };
+		8EE9756A19602B6700335EB2 /* KRKmeansOne.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EE9756919602B6700335EB2 /* KRKmeansOne.m */; };
+		8EE975C61961C0F400335EB2 /* KRKmeansTwo.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EE975C51961C0F400335EB2 /* KRKmeansTwo.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		8EE975541960257200335EB2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8EE975261960257100335EB2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8EE9752D1960257200335EB2;
+			remoteInfo = KRKmeans;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		8EE9752E1960257200335EB2 /* KRKmeans.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KRKmeans.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8EE975311960257200335EB2 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		8EE975331960257200335EB2 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		8EE975351960257200335EB2 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		8EE975391960257200335EB2 /* KRKmeans-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "KRKmeans-Info.plist"; sourceTree = "<group>"; };
+		8EE9753B1960257200335EB2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		8EE9753D1960257200335EB2 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		8EE9753F1960257200335EB2 /* KRKmeans-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "KRKmeans-Prefix.pch"; sourceTree = "<group>"; };
+		8EE975401960257200335EB2 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		8EE975411960257200335EB2 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		8EE975441960257200335EB2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		8EE975461960257200335EB2 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		8EE975471960257200335EB2 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		8EE975491960257200335EB2 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		8EE9754F1960257200335EB2 /* KRKmeansTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KRKmeansTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8EE975501960257200335EB2 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		8EE975581960257200335EB2 /* KRKmeansTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "KRKmeansTests-Info.plist"; sourceTree = "<group>"; };
+		8EE9755A1960257200335EB2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		8EE9755C1960257200335EB2 /* KRKmeansTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KRKmeansTests.m; sourceTree = "<group>"; };
+		8EE9756819602B6700335EB2 /* KRKmeansOne.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KRKmeansOne.h; sourceTree = "<group>"; };
+		8EE9756919602B6700335EB2 /* KRKmeansOne.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KRKmeansOne.m; sourceTree = "<group>"; };
+		8EE9756E1960656700335EB2 /* NSArray+Statistics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Statistics.h"; sourceTree = "<group>"; };
+		8EE975C41961C0F400335EB2 /* KRKmeansTwo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KRKmeansTwo.h; sourceTree = "<group>"; };
+		8EE975C51961C0F400335EB2 /* KRKmeansTwo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KRKmeansTwo.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8EE9752B1960257200335EB2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8EE975341960257200335EB2 /* CoreGraphics.framework in Frameworks */,
+				8EE975361960257200335EB2 /* UIKit.framework in Frameworks */,
+				8EE975321960257200335EB2 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8EE9754C1960257200335EB2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8EE975511960257200335EB2 /* XCTest.framework in Frameworks */,
+				8EE975531960257200335EB2 /* UIKit.framework in Frameworks */,
+				8EE975521960257200335EB2 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		8EE975251960257100335EB2 = {
+			isa = PBXGroup;
+			children = (
+				8EE97566196027A600335EB2 /* Classes */,
+				8EE975371960257200335EB2 /* KRKmeans */,
+				8EE975381960257200335EB2 /* Supporting Files */,
+				8EE975561960257200335EB2 /* KRKmeansTests */,
+				8EE975301960257200335EB2 /* Frameworks */,
+				8EE9752F1960257200335EB2 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		8EE9752F1960257200335EB2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8EE9752E1960257200335EB2 /* KRKmeans.app */,
+				8EE9754F1960257200335EB2 /* KRKmeansTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		8EE975301960257200335EB2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8EE975311960257200335EB2 /* Foundation.framework */,
+				8EE975331960257200335EB2 /* CoreGraphics.framework */,
+				8EE975351960257200335EB2 /* UIKit.framework */,
+				8EE975501960257200335EB2 /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8EE975371960257200335EB2 /* KRKmeans */ = {
+			isa = PBXGroup;
+			children = (
+				8EE975401960257200335EB2 /* AppDelegate.h */,
+				8EE975411960257200335EB2 /* AppDelegate.m */,
+				8EE975431960257200335EB2 /* Main.storyboard */,
+				8EE975461960257200335EB2 /* ViewController.h */,
+				8EE975471960257200335EB2 /* ViewController.m */,
+				8EE975491960257200335EB2 /* Images.xcassets */,
+			);
+			path = KRKmeans;
+			sourceTree = "<group>";
+		};
+		8EE975381960257200335EB2 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				8EE975391960257200335EB2 /* KRKmeans-Info.plist */,
+				8EE9753A1960257200335EB2 /* InfoPlist.strings */,
+				8EE9753D1960257200335EB2 /* main.m */,
+				8EE9753F1960257200335EB2 /* KRKmeans-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			path = KRKmeans;
+			sourceTree = "<group>";
+		};
+		8EE975561960257200335EB2 /* KRKmeansTests */ = {
+			isa = PBXGroup;
+			children = (
+				8EE9755C1960257200335EB2 /* KRKmeansTests.m */,
+				8EE975571960257200335EB2 /* Supporting Files */,
+			);
+			path = KRKmeansTests;
+			sourceTree = "<group>";
+		};
+		8EE975571960257200335EB2 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				8EE975581960257200335EB2 /* KRKmeansTests-Info.plist */,
+				8EE975591960257200335EB2 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		8EE97566196027A600335EB2 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				8EE97567196027A600335EB2 /* KRKmeans */,
+			);
+			name = Classes;
+			path = KRKmeans/Classes;
+			sourceTree = "<group>";
+		};
+		8EE97567196027A600335EB2 /* KRKmeans */ = {
+			isa = PBXGroup;
+			children = (
+				8EE9756E1960656700335EB2 /* NSArray+Statistics.h */,
+				8EE9756819602B6700335EB2 /* KRKmeansOne.h */,
+				8EE9756919602B6700335EB2 /* KRKmeansOne.m */,
+				8EE975C41961C0F400335EB2 /* KRKmeansTwo.h */,
+				8EE975C51961C0F400335EB2 /* KRKmeansTwo.m */,
+			);
+			path = KRKmeans;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8EE9752D1960257200335EB2 /* KRKmeans */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8EE975601960257200335EB2 /* Build configuration list for PBXNativeTarget "KRKmeans" */;
+			buildPhases = (
+				8EE9752A1960257200335EB2 /* Sources */,
+				8EE9752B1960257200335EB2 /* Frameworks */,
+				8EE9752C1960257200335EB2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = KRKmeans;
+			productName = KRKmeans;
+			productReference = 8EE9752E1960257200335EB2 /* KRKmeans.app */;
+			productType = "com.apple.product-type.application";
+		};
+		8EE9754E1960257200335EB2 /* KRKmeansTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8EE975631960257200335EB2 /* Build configuration list for PBXNativeTarget "KRKmeansTests" */;
+			buildPhases = (
+				8EE9754B1960257200335EB2 /* Sources */,
+				8EE9754C1960257200335EB2 /* Frameworks */,
+				8EE9754D1960257200335EB2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8EE975551960257200335EB2 /* PBXTargetDependency */,
+			);
+			name = KRKmeansTests;
+			productName = KRKmeansTests;
+			productReference = 8EE9754F1960257200335EB2 /* KRKmeansTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		8EE975261960257100335EB2 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0510;
+				ORGANIZATIONNAME = Kalvar;
+				TargetAttributes = {
+					8EE9754E1960257200335EB2 = {
+						TestTargetID = 8EE9752D1960257200335EB2;
+					};
+				};
+			};
+			buildConfigurationList = 8EE975291960257100335EB2 /* Build configuration list for PBXProject "KRKmeans" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 8EE975251960257100335EB2;
+			productRefGroup = 8EE9752F1960257200335EB2 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8EE9752D1960257200335EB2 /* KRKmeans */,
+				8EE9754E1960257200335EB2 /* KRKmeansTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8EE9752C1960257200335EB2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8EE9754A1960257200335EB2 /* Images.xcassets in Resources */,
+				8EE9753C1960257200335EB2 /* InfoPlist.strings in Resources */,
+				8EE975451960257200335EB2 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8EE9754D1960257200335EB2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8EE9755B1960257200335EB2 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8EE9752A1960257200335EB2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8EE975481960257200335EB2 /* ViewController.m in Sources */,
+				8EE9756A19602B6700335EB2 /* KRKmeansOne.m in Sources */,
+				8EE975421960257200335EB2 /* AppDelegate.m in Sources */,
+				8EE9753E1960257200335EB2 /* main.m in Sources */,
+				8EE975C61961C0F400335EB2 /* KRKmeansTwo.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8EE9754B1960257200335EB2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8EE9755D1960257200335EB2 /* KRKmeansTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		8EE975551960257200335EB2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8EE9752D1960257200335EB2 /* KRKmeans */;
+			targetProxy = 8EE975541960257200335EB2 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		8EE9753A1960257200335EB2 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8EE9753B1960257200335EB2 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		8EE975431960257200335EB2 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8EE975441960257200335EB2 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		8EE975591960257200335EB2 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8EE9755A1960257200335EB2 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		8EE9755E1960257200335EB2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		8EE9755F1960257200335EB2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		8EE975611960257200335EB2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "KRKmeans/KRKmeans-Prefix.pch";
+				INFOPLIST_FILE = "KRKmeans/KRKmeans-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		8EE975621960257200335EB2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "KRKmeans/KRKmeans-Prefix.pch";
+				INFOPLIST_FILE = "KRKmeans/KRKmeans-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		8EE975641960257200335EB2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/KRKmeans.app/KRKmeans";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "KRKmeans/KRKmeans-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "KRKmeansTests/KRKmeansTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		8EE975651960257200335EB2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/KRKmeans.app/KRKmeans";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "KRKmeans/KRKmeans-Prefix.pch";
+				INFOPLIST_FILE = "KRKmeansTests/KRKmeansTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		8EE975291960257100335EB2 /* Build configuration list for PBXProject "KRKmeans" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8EE9755E1960257200335EB2 /* Debug */,
+				8EE9755F1960257200335EB2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8EE975601960257200335EB2 /* Build configuration list for PBXNativeTarget "KRKmeans" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8EE975611960257200335EB2 /* Debug */,
+				8EE975621960257200335EB2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		8EE975631960257200335EB2 /* Build configuration list for PBXNativeTarget "KRKmeansTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8EE975641960257200335EB2 /* Debug */,
+				8EE975651960257200335EB2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 8EE975261960257100335EB2 /* Project object */;
+}
