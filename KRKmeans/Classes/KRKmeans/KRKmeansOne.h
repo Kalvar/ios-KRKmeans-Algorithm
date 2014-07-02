@@ -1,6 +1,6 @@
 //
-//  KRKmeans V1.0.h
-//  KRKmeans V1.0
+//  KRKmeans V1.1.h
+//  KRKmeans V1.1
 //
 //  Created by Kalvar on 2014/6/29.
 //  Copyright (c) 2014年 Kalvar. All rights reserved.
@@ -27,6 +27,10 @@
 @property (nonatomic, strong) NSMutableArray *midClusters;
 //重複出現的數值
 @property (nonatomic, strong) NSMutableDictionary *overlappings;
+//自訂中位數
+@property (nonatomic, assign) float customMedian;
+//是否使用自訂的中位數
+@property (nonatomic, assign) BOOL useCustomMedian;
 
 +(instancetype)sharedKmeans;
 -(instancetype)init;

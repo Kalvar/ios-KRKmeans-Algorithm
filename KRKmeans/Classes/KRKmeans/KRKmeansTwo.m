@@ -1,6 +1,6 @@
 //
-//  KRKmeans V1.0Two.m
-//  KRKmeans V1.0
+//  KRKmeans V1.1Two.m
+//  KRKmeans V1.1
 //
 //  Created by Kalvar on 2014/6/30.
 //  Copyright (c) 2014年 Kalvar. All rights reserved.

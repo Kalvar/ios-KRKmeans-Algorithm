@@ -1,6 +1,6 @@
 //
-//  KRKmeans V1.0Tests.m
-//  KRKmeans V1.0Tests
+//  KRKmeans V1.1Tests.m
+//  KRKmeans V1.1Tests
 //
 //  Created by Kalvar on 2014/6/29.
 //  Copyright (c) 2014年 Kalvar. All rights reserved.

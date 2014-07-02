@@ -1,6 +1,6 @@
 //
-//  KRKmeans V1.0.m
-//  KRKmeans V1.0
+//  KRKmeans V1.1.m
+//  KRKmeans V1.1
 //
 //  Created by Kalvar on 2014/6/29.
 //  Copyright (c) 2014年 Kalvar. All rights reserved.
@@ -12,12 +12,14 @@
 
 @implementation KRKmeansOne
 
-@synthesize sources       = _sources;
-@synthesize knowledgeLine = _knowledgeLine;
-@synthesize maxClusters   = _maxClusters;
-@synthesize minClusters   = _minClusters;
-@synthesize midClusters   = _midClusters;
-@synthesize overlappings  = _overlappings;
+@synthesize sources         = _sources;
+@synthesize knowledgeLine   = _knowledgeLine;
+@synthesize maxClusters     = _maxClusters;
+@synthesize minClusters     = _minClusters;
+@synthesize midClusters     = _midClusters;
+@synthesize overlappings    = _overlappings;
+@synthesize customMedian    = _customMedian;
+@synthesize useCustomMedian = _useCustomMedian;
 
 +(instancetype)sharedKmeans
 {
@@ -35,12 +37,14 @@
     self = [super init];
     if( self )
     {
-        _sources       = nil;
-        _knowledgeLine = 0.0f;
-        _maxClusters   = nil;
-        _minClusters   = nil;
-        _midClusters   = nil;
-        _overlappings  = nil;
+        _sources         = nil;
+        _knowledgeLine   = 0.0f;
+        _maxClusters     = nil;
+        _minClusters     = nil;
+        _midClusters     = nil;
+        _overlappings    = nil;
+        _customMedian    = 0.0f;
+        _useCustomMedian = NO;
     }
     return self;
 }
@@ -57,9 +61,12 @@
     float _minValue = [_sources minimum];
     //自訂中位數
     //float _midValue = 45.0f;
-    //用程式找出中位數
-    float _midValue = [_sources median];
-    
+    float _midValue _customMedian;
+    if( !self.useCustomMedian )
+    {
+        //用程式找出中位數
+        _midValue = [_sources median];
+    }
     //存放重疊的數值( 重複出現的最大值、最小值、中位數 ), Key = 重疊的 Index 位置，Value = 重疊的值
     if( !_overlappings )
     {
