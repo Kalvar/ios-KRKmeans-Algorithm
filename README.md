@@ -1,7 +1,7 @@
 ios-KRKmeans-Algorithm
 =================
 
-This's AES256 encrypt algorithm.
+K-Means is a classification algorithm, it has good performance in the microchip and others serial processing method, KRKmeans is a prototype based this implementation. 
 
 ``` objective-c
 #import "KRKmeansOne.h"
