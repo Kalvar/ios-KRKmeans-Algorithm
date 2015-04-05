@@ -232,6 +232,12 @@
  */
 -(void)directCluster
 {
+    if( _sources == nil )
+    {
+        [_results addObjectsFromArray:_sets];
+        return;
+    }
+    
     if( [_sets count] > 0 && [_sources count] > 0 )
     {
         //先求出每一個集合陣列的中心位置
