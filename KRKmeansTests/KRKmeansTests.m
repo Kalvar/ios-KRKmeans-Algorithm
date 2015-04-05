@@ -1,9 +1,9 @@
 //
-//  KRKmeans V1.1Tests.m
-//  KRKmeans V1.1Tests
+//  KRKmeans V2.0Tests.m
+//  KRKmeans V2.0Tests
 //
 //  Created by Kalvar on 2014/6/29.
-//  Copyright (c) 2014年 Kalvar. All rights reserved.
+//  Copyright (c) 2014 - 2015年 Kalvar Lin, ilovekalvar@gmail.com. All rights reserved.
 //
 
 #import <XCTest/XCTest.h>

@@ -22,7 +22,7 @@
 		8EE9755B1960257200335EB2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8EE975591960257200335EB2 /* InfoPlist.strings */; };
 		8EE9755D1960257200335EB2 /* KRKmeansTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EE9755C1960257200335EB2 /* KRKmeansTests.m */; };
 		8EE9756A19602B6700335EB2 /* KRKmeansOne.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EE9756919602B6700335EB2 /* KRKmeansOne.m */; };
-		8EE975C61961C0F400335EB2 /* KRKmeansTwo.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EE975C51961C0F400335EB2 /* KRKmeansTwo.m */; };
+		8EE975C61961C0F400335EB2 /* KRKmeans.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EE975C51961C0F400335EB2 /* KRKmeans.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,8 +58,8 @@
 		8EE9756819602B6700335EB2 /* KRKmeansOne.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KRKmeansOne.h; sourceTree = "<group>"; };
 		8EE9756919602B6700335EB2 /* KRKmeansOne.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KRKmeansOne.m; sourceTree = "<group>"; };
 		8EE9756E1960656700335EB2 /* NSArray+Statistics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Statistics.h"; sourceTree = "<group>"; };
-		8EE975C41961C0F400335EB2 /* KRKmeansTwo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KRKmeansTwo.h; sourceTree = "<group>"; };
-		8EE975C51961C0F400335EB2 /* KRKmeansTwo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KRKmeansTwo.m; sourceTree = "<group>"; };
+		8EE975C41961C0F400335EB2 /* KRKmeans.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KRKmeans.h; sourceTree = "<group>"; };
+		8EE975C51961C0F400335EB2 /* KRKmeans.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KRKmeans.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -176,8 +176,8 @@
 				8EE9756E1960656700335EB2 /* NSArray+Statistics.h */,
 				8EE9756819602B6700335EB2 /* KRKmeansOne.h */,
 				8EE9756919602B6700335EB2 /* KRKmeansOne.m */,
-				8EE975C41961C0F400335EB2 /* KRKmeansTwo.h */,
-				8EE975C51961C0F400335EB2 /* KRKmeansTwo.m */,
+				8EE975C41961C0F400335EB2 /* KRKmeans.h */,
+				8EE975C51961C0F400335EB2 /* KRKmeans.m */,
 			);
 			path = KRKmeans;
 			sourceTree = "<group>";
@@ -283,7 +283,7 @@
 				8EE9756A19602B6700335EB2 /* KRKmeansOne.m in Sources */,
 				8EE975421960257200335EB2 /* AppDelegate.m in Sources */,
 				8EE9753E1960257200335EB2 /* main.m in Sources */,
-				8EE975C61961C0F400335EB2 /* KRKmeansTwo.m in Sources */,
+				8EE975C61961C0F400335EB2 /* KRKmeans.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -488,6 +488,7 @@
 				8EE975621960257200335EB2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		8EE975631960257200335EB2 /* Build configuration list for PBXNativeTarget "KRKmeansTests" */ = {
 			isa = XCConfigurationList;
@@ -496,6 +497,7 @@
 				8EE975651960257200335EB2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
