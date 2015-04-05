@@ -232,6 +232,7 @@
  */
 -(void)directCluster
 {
+    //If it doesn't have sources, then directly use the original sets to be clustered results.
     if( _sources == nil )
     {
         [_results addObjectsFromArray:_sets];
