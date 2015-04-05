@@ -58,7 +58,7 @@
     //[_krKmeans addSets:@[@[@7, @9], @[@7, @8], @[@5, @5], @[@9, @3]]];
     //It means D sets.
     //[_krKmeans addSets:@[@[@3, @12], @[@5, @20]]];
-    //It means C sets which wanna be clustered.
+    //It means X sets which wanna be clustered, if you don't setup this, the KRKmeans will cluster the original sets to be new groups.
     _krKmeans.sources = @[@[@5, @4], @[@3, @4], @[@2, @5], @[@9, @8], @[@3, @20]];
     [_krKmeans clusteringWithCompletion:^(BOOL success, NSArray *clusters, NSInteger totalTimes)
     {
