@@ -91,23 +91,23 @@
      *   - 4. 依照這群聚中心點，進行迭代運算，重新計算與分類所有的已分類好的群聚，並重複第 1 到第 3 步驟
      */
     NSArray *_centrals = [self calculateSetsCenters:_newClusters];
-    //取出最大的距離是多少 (也可改取最小距離進行判斷)
-    float _maxDistance = -1.0f;
+    //取出最小的距離是多少 (也可改取最大距離進行判斷)
+    float _minDistance = -1.0f;
     int _index         = 0;
     for( NSArray *_newCenters in _centrals )
     {
         float _distance = [self _distanceX1:[_lastCenters objectAtIndex:_index] x2:_newCenters];
         //距離不會有負數，所以直接比較就行
-        if( _maxDistance <= _distance )
+        if( _minDistance < 0.0f || _distance < _minDistance )
         {
-            _maxDistance = _distance;
+            _minDistance = _distance;
         }
         ++_index;
     }
     //NSLog(@"_maxDistance : %f", _maxDistance);
     
     //當前中心點與上次距離的誤差 <= 收斂值 || 迭代運算到了限定次數 ( 避免 Memory Leak )
-    if( ( _maxDistance - self.lastDistance ) <= self.convergenceError || self.currentGenerations >= self.limitGenerations )
+    if( ( _minDistance - self.lastDistance ) <= self.convergenceError || self.currentGenerations >= self.limitGenerations )
     {
         //即收斂
         //NSLog(@"收斂 : %f", _maxDistance - self.lastDistance);
@@ -117,7 +117,7 @@
     }
     else
     {
-        self.lastDistance = _maxDistance;
+        self.lastDistance = _minDistance;
         ++self.currentGenerations;
         _lastCenters      = [NSMutableArray arrayWithArray:_centrals];
         //繼續跑遞迴分群
