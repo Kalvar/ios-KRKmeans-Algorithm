@@ -51,11 +51,13 @@ KRKmeans has implemented K-Means that is a classification algorithm. If you wann
     //[_krKmeans addSets:@[@[@3, @12], @[@5, @20]]];
     //It means X sets which wanna be clustered, if you don't setup this, the KRKmeans will cluster the original sets to be new groups.
     _krKmeans.sources = @[@[@5, @4], @[@3, @4], @[@2, @5], @[@9, @8], @[@3, @20]];
-    [_krKmeans clusteringWithCompletion:^(BOOL success, NSArray *clusters, NSInteger totalTimes) 
+    [_krKmeans clusteringWithCompletion:^(BOOL success, NSArray *clusters, NSArray *centers, NSInteger totalTimes)
     {
         NSLog(@"totalTimes : %li", totalTimes);
         NSLog(@"clusters : %@", clusters);
-    } eachGeneration:^(NSInteger times, NSArray *clusters) 
+        NSLog(@"centers : %@", centers);
+        NSLog(@"SSE : %lf", [_krKmeans calculateSSE]);
+    } eachGeneration:^(NSInteger times, NSArray *clusters, NSArray *centers)
     {
         NSLog(@"times : %li", times);
     }];
@@ -79,7 +81,7 @@ KRKmeans has implemented K-Means that is a classification algorithm. If you wann
 
 ## Version
 
-V2.0
+V2.1
 
 ## License
 

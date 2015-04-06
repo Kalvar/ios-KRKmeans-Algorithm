@@ -91,6 +91,8 @@
      *   - 4. 依照這群聚中心點，進行迭代運算，重新計算與分類所有的已分類好的群聚，並重複第 1 到第 3 步驟
      */
     NSArray *_centrals = [self calculateSetsCenters:_newClusters];
+    [self.centers removeAllObjects];
+    [self.centers addObjectsFromArray:_centrals];
     //取出最小的距離是多少 (也可改取最大距離進行判斷)
     float _minDistance = -1.0f;
     int _index         = 0;
@@ -125,9 +127,9 @@
         {
             if( self.eachGeneration )
             {
-                self.eachGeneration(self.currentGenerations, _newClusters);
+                self.eachGeneration(self.currentGenerations, _newClusters, _centrals);
             }
-            //把所有的群聚全部打散重新變成一個陣列
+            //把所有的群聚全部打散重新變成一個陣列，效率反而比一個一個 Array 處理的要來的快，因為省去了在多個 Array 間重複操作的時間和存取
             NSMutableArray *_combinedSources = [NSMutableArray new];
             for( NSArray *_clusters in _newClusters )
             {
@@ -142,7 +144,7 @@
 {
     if( self.clusterCompletion )
     {
-        self.clusterCompletion(YES, self.results, self.currentGenerations);
+        self.clusterCompletion(YES, self.results, self.centers, self.currentGenerations);
     }
 }
 
@@ -151,7 +153,8 @@
 @implementation KRKmeans
 
 @synthesize sets               = _sets;
-@synthesize sources            = _sources;
+@synthesize centers            = _centers;
+@synthesize patterns           = _patterns;
 @synthesize results            = _results;
 @synthesize convergenceError   = _convergenceError;
 @synthesize limitGenerations   = _limitGenerations;
@@ -179,7 +182,8 @@
     if( self )
     {
         _sets               = [NSMutableArray new];
-        _sources            = nil;
+        _centers            = [NSMutableArray new];
+        _patterns           = nil;
         _results            = [NSMutableArray new];
         _convergenceError   = 0.001f;
         _limitGenerations   = 5000;
@@ -233,18 +237,20 @@
 -(void)directCluster
 {
     //If it doesn't have sources, then directly use the original sets to be clustered results.
-    if( _sources == nil )
+    if( _patterns == nil )
     {
         [_results addObjectsFromArray:_sets];
         return;
     }
     
-    if( [_sets count] > 0 && [_sources count] > 0 )
+    if( [_sets count] > 0 && [_patterns count] > 0 )
     {
         //先求出每一個集合陣列的中心位置
         NSArray *_centrals             = [self calculateSetsCenters:_sets];
+        [_centers removeAllObjects];
+        [_centers addObjectsFromArray:_centrals];
         _lastCenters                   = [NSMutableArray arrayWithArray:_centrals];
-        NSMutableArray *_clusteredSets = [self _clusterSources:_sources compareCenters:_centrals];
+        NSMutableArray *_clusteredSets = [self _clusterSources:_patterns compareCenters:_centrals];
         int _index = 0;
         for( NSArray *_clusters in _clusteredSets )
         {
@@ -279,17 +285,52 @@
     [self clusteringWithCompletion:nil];
 }
 
+/*
+ * @ SSE
+ *   - 計算加總所有的分群裡頭每個資料點與中心點距離，
+ *     目的是對每次 K-Means 的聚類結果做評量，以找出具有最小SSE的那組聚類結果作為解答。
+ */
+-(double)calculateSSE
+{
+    double _sumSSE = 0.0f;
+    int _index     = 0;
+    for( NSArray *_clusters in _results )
+    {
+        NSArray *_centrals = [_centers objectAtIndex:_index];
+        for( NSArray *_xy in _clusters )
+        {
+            _sumSSE += [self _distanceX1:_xy x2:_centrals];
+        }
+        ++_index;
+    }
+    return _sumSSE;
+}
+
+/*
+ * @ 新增加集合
+ *   - 如果一次只有 1 組，代表該組即為「該群的起始中心點」
+ *   - 如果一次有多組，代表「該群的中心點」是該組裡的所有點平均值
+ */
 -(void)addSets:(NSArray *)_theSets
 {
     [_sets addObject:[[NSMutableArray alloc] initWithArray:_theSets]];
 }
 
+-(void)addPatterns:(NSArray *)_theSets
+{
+    _patterns = _theSets;
+}
+
 -(void)printResults
 {
+    NSLog(@"centers : %@", _centers);
+    NSLog(@"====================================\n\n\n");
+    int _i = 1;
     for( NSArray *_clusters in _results )
     {
-        NSLog(@"_clusters : %@", _clusters);
-        NSLog(@"================== \n\n\n");
+        NSLog(@"clusters (%i) : %@", _i, _clusters);
+        NSLog(@"====================================\n\n\n");
+        ++_i;
     }
 }
 

@@ -50,21 +50,23 @@
     
     //Two dimesional K-Means, the data set is (x, y)
     KRKmeans *_krKmeans = [KRKmeans sharedKmeans];
-    //It means A sets.
+    //It means A sets. ( and the centers will be calculated here. )
     [_krKmeans addSets:@[@[@1, @1], @[@1, @2], @[@2, @2], @[@3, @2], @[@3, @1]]];
     //It means B sets.
     [_krKmeans addSets:@[@[@6, @4], @[@7, @6], @[@5, @6], @[@6, @5]]];
-    //It means C sets.
-    //[_krKmeans addSets:@[@[@7, @9], @[@7, @8], @[@5, @5], @[@9, @3]]];
+    //It means C sets and the center.
+    //[_krKmeans addSets:@[@[@7, @8]]];
     //It means D sets.
     //[_krKmeans addSets:@[@[@3, @12], @[@5, @20]]];
     //It means X sets which wanna be clustered, if you don't setup this, the KRKmeans will cluster the original sets to be new groups.
-    _krKmeans.sources = @[@[@5, @4], @[@3, @4], @[@2, @5], @[@9, @8], @[@3, @20]];
-    [_krKmeans clusteringWithCompletion:^(BOOL success, NSArray *clusters, NSInteger totalTimes)
+    [_krKmeans addPatterns:@[@[@5, @4], @[@3, @4], @[@2, @5], @[@9, @8], @[@3, @20]]];
+    [_krKmeans clusteringWithCompletion:^(BOOL success, NSArray *clusters, NSArray *centers, NSInteger totalTimes)
     {
         NSLog(@"totalTimes : %li", totalTimes);
         NSLog(@"clusters : %@", clusters);
-    } eachGeneration:^(NSInteger times, NSArray *clusters)
+        NSLog(@"centers : %@", centers);
+        NSLog(@"SSE : %lf", [_krKmeans calculateSSE]);
+    } eachGeneration:^(NSInteger times, NSArray *clusters, NSArray *centers)
     {
         NSLog(@"times : %li", times);
     }];
