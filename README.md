@@ -1,7 +1,7 @@
 ios-KRKmeans-Algorithm
 =================
 
-KRKmeans has implemented K-Means that is a classification algorithm. If you wanna know how to use and the details, you could contact me via email.
+KRKmeans has implemented K-Means the classification algorithm. If you wanna know how to use and the details, you could contact me via email.
 
 ``` objective-c
 #import "KRKmeansOne.h"

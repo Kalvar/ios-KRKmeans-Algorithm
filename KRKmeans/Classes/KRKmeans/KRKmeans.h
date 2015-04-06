@@ -1,6 +1,6 @@
 //
 //  KRKmeans.h
-//  KRKmeans V2.0
+//  KRKmeans V2.1
 //
 //  Created by Kalvar on 2014/6/30.
 //  Copyright (c) 2014 - 2015年 Kalvar Lin, ilovekalvar@gmail.com. All rights reserved.
@@ -34,17 +34,20 @@
 /*
  * @ 訓練完成時
  *   - success     : 是否訓練成功
- *   - trainedInfo : 訓練後的 Network 資料
- *   - totalTimes  : 共訓練幾次即達到收斂
+ *   - centers     : 分群結果
+ *   - centrals    : 群聚中心點
+ *   - totalTimes  : 共迭代了幾次即達到收斂
  */
 typedef void(^KRKmeansClusteringCompletion)(BOOL success, NSArray *clusters, NSArray *centers, NSInteger totalTimes);
 
 /*
  * @ 每一次的迭代資料
- *   - times       : 訓練到了第幾代
- *   - trainedInfo : 本次訓練的 Network 資料
+ *   - times       : 第幾迭代運算
+ *   - clusters    : 本次的分群結果
+ *   - centers     : 本次的群聚中心點
  */
 typedef void(^KRKmeansEachGeneration)(NSInteger times, NSArray *clusters, NSArray *centers);
+
 
 @interface KRKmeans : NSObject
 

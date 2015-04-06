@@ -1,6 +1,6 @@
 //
-//  KRKmeans V2.0.m
-//  KRKmeans V2.0
+//  KRKmeans V2.1.m
+//  KRKmeans V2.1
 //
 //  Created by Kalvar on 2014/6/29.
 //  Copyright (c) 2014 - 2015年 Kalvar Lin, ilovekalvar@gmail.com. All rights reserved.
@@ -61,7 +61,7 @@
     float _minValue = [_sources minimum];
     //自訂中位數
     //float _midValue = 45.0f;
-    float _midValue, _customMedian;
+    float _midValue; //, _customMedian;
     if( !self.useCustomMedian )
     {
         //用程式找出中位數
