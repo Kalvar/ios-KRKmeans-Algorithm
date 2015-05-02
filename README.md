@@ -1,7 +1,7 @@
 ios-KRKmeans-Algorithm
 =================
 
-KRKmeans has implemented K-Means the classification algorithm. If you wanna know how to use and the details, you could contact me via email.
+KRKmeans has implemented K-Means the clustering and classification algorithm (クラスタリング分類). It could be used in data mining (データマイニング) and image compression (画像圧縮). If you wanna know how to use and the details, you could contact me via email.
 
 ``` objective-c
 #import "KRKmeansOne.h"
@@ -26,7 +26,7 @@ KRKmeans has implemented K-Means the classification algorithm. If you wanna know
             n    = 3
             Tmax = 146
             Tmin = 0.33
-            Tmid = 1 ( 使用自動計算中位數, _krKmeans.useCustomMedian = NO )
+            Tmid = 1 ( Auto-calculate the median number, _krKmeans.useCustomMedian = NO )
         
         Answer :
         
