@@ -7,7 +7,6 @@
 //
 
 #import "ViewController.h"
-#import "KRKmeansOne.h"
 #import "KRKmeans.h"
 
 @interface ViewController ()

@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "KRKmeansOne.h"
 
 /*
  * @ 2 維 K-Means

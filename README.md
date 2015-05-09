@@ -3,8 +3,16 @@ ios-KRKmeans-Algorithm
 
 KRKmeans has implemented K-Means the clustering and classification algorithm (クラスタリング分類). It could be used in data mining (データマイニング) and image compression (画像圧縮). If you wanna know how to use and the details, you could contact me via email.
 
+#### Podfile
+
+```ruby
+platform :ios, '7.0'
+pod "KRKmeans", "~> 2.0"
+```
+
+## How to use
+
 ``` objective-c
-#import "KRKmeansOne.h"
 #import "KRKmeans.h"
 
 - (void)viewDidLoad
