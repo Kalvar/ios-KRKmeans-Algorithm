@@ -7,7 +7,7 @@ KRKmeans has implemented K-Means the clustering and classification algorithm (ã‚
 
 ```ruby
 platform :ios, '7.0'
-pod "KRKmeans", "~> 2.0"
+pod "KRKmeans", "~> 2.2"
 ```
 
 ## How to use
@@ -89,7 +89,7 @@ pod "KRKmeans", "~> 2.0"
 
 ## Version
 
-V2.1
+V2.2
 
 ## License
 
