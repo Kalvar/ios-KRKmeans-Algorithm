@@ -7,14 +7,14 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>E57A2907-A074-4106-B530-22DF2BC0D9E7</string>
 	<key>IDESourceControlProjectName</key>
-	<string>KRKmeans</string>
+	<string>project</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>0FD47910F037E012AA6F179F93F7DFEC0BB80E7B</key>
 		<string>https://github.com/Kalvar/ios-KRKmeans-Algorithm.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>KRKmeans.xcodeproj</string>
+	<string>KRKmeans.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>0FD47910F037E012AA6F179F93F7DFEC0BB80E7B</key>

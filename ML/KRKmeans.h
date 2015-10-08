@@ -1,6 +1,6 @@
 //
 //  KRKmeans.h
-//  KRKmeans V2.1
+//  KRKmeans V2.3
 //
 //  Created by Kalvar on 2014/6/30.
 //  Copyright (c) 2014 - 2015年 Kalvar Lin, ilovekalvar@gmail.com. All rights reserved.
@@ -49,7 +49,6 @@ typedef void(^KRKmeansClusteringCompletion)(BOOL success, NSArray *clusters, NSA
  */
 typedef void(^KRKmeansEachGeneration)(NSInteger times, NSArray *clusters, NSArray *centers);
 
-
 @interface KRKmeans : NSObject
 
 //要訓練分群用的集合樣本
@@ -57,7 +56,7 @@ typedef void(^KRKmeansEachGeneration)(NSInteger times, NSArray *clusters, NSArra
 //每一群的中心點
 @property (nonatomic, strong) NSMutableArray *centers;
 //要分群的集合數據
-@property (nonatomic, strong) NSArray *patterns;
+@property (nonatomic, strong) NSMutableArray *patterns;
 //分群結果
 @property (nonatomic, strong) NSMutableArray *results;
 //收斂誤差
