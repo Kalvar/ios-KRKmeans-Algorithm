@@ -1,6 +1,6 @@
 //
-//  KRKmeans V2.3.h
-//  KRKmeans V2.3
+//  KRKmeans V2.3.1.h
+//  KRKmeans V2.3.1
 //
 //  Created by Kalvar on 2014/6/29.
 //  Copyright (c) 2014 - 2015年 Kalvar Lin, ilovekalvar@gmail.com. All rights reserved.
@@ -14,6 +14,8 @@
  *   - Min : 最小數群
  *   - Mid : 中位數群
  */
+typedef void(^KRKmeansOneCompletion)(BOOL success, float knowledgeLine, NSArray *maxClusters, NSArray *minClusters, NSArray *midClusters, NSDictionary *overlappings);
+
 @interface KRKmeansOne : NSObject
 
 @property (nonatomic, strong) NSArray *sources;
@@ -29,11 +31,10 @@
 @property (nonatomic, strong) NSMutableDictionary *overlappings;
 //自訂中位數
 @property (nonatomic, assign) float customMedian;
-//是否使用自訂的中位數
-@property (nonatomic, assign) BOOL useCustomMedian;
 
 +(instancetype)sharedKmeans;
 -(instancetype)init;
+-(void)clusteringWithCompletion:(KRKmeansOneCompletion)_completion;
 -(void)clustering;
 -(void)printResults;
 

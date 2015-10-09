@@ -1,6 +1,6 @@
 //
-//  KRKmeans V2.3.m
-//  KRKmeans V2.3
+//  KRKmeans V2.3.1.m
+//  KRKmeans V2.3.1
 //
 //  Created by Kalvar on 2014/6/29.
 //  Copyright (c) 2014 - 2015年 Kalvar Lin, ilovekalvar@gmail.com. All rights reserved.
@@ -9,17 +9,14 @@
 #import "KRKmeansOne.h"
 #import "NSArray+Statistics.h"
 
+@interface KRKmeansOne ()
+
+//是否使用自訂的中位數
+@property (nonatomic, assign) BOOL useCustomMedian;
+
+@end
 
 @implementation KRKmeansOne
-
-@synthesize sources         = _sources;
-@synthesize knowledgeLine   = _knowledgeLine;
-@synthesize maxClusters     = _maxClusters;
-@synthesize minClusters     = _minClusters;
-@synthesize midClusters     = _midClusters;
-@synthesize overlappings    = _overlappings;
-@synthesize customMedian    = _customMedian;
-@synthesize useCustomMedian = _useCustomMedian;
 
 +(instancetype)sharedKmeans
 {
@@ -53,20 +50,14 @@
  * @ 1 維 K-Means
  *   - One dimensional K-Means
  */
--(void)clustering
+-(void)clusteringWithCompletion:(KRKmeansOneCompletion)_completion
 {
     //找出陣列裡最大值
     float _maxValue = [_sources maximum];
     //找出陣列裡最小值
     float _minValue = [_sources minimum];
-    //自訂中位數
-    //float _midValue = 45.0f;
-    float _midValue; //, _customMedian;
-    if( !self.useCustomMedian )
-    {
-        //用程式找出中位數
-        _midValue = [_sources median];
-    }
+    //中位數 = 不使用自訂值 ? 用程式找出中位數 : 自訂值;
+    float _midValue = ( !_useCustomMedian ) ? [_sources median] : _customMedian;
     //存放重疊的數值( 重複出現的最大值、最小值、中位數 ), Key = 重疊的 Index 位置，Value = 重疊的值
     if( !_overlappings )
     {
@@ -150,6 +141,16 @@
     }
     
     _knowledgeLine = ([_maxClusters maximum] + [_minClusters minimum] + [_midClusters median]) / 3;
+    
+    if( _completion )
+    {
+        _completion(YES, _knowledgeLine, _maxClusters, _minClusters, _midClusters, _overlappings);
+    }
+}
+
+-(void)clustering
+{
+    [self clusteringWithCompletion:nil];
 }
 
 -(void)printResults
@@ -159,6 +160,13 @@
     NSLog(@"minClusters : %@", _minClusters);
     NSLog(@"midClusters : %@", _midClusters);
     NSLog(@"overlappings : %@", _overlappings);
+}
+
+#pragma --mark Setters
+-(void)setCustomMedian:(float)_median
+{
+    _useCustomMedian = YES;
+    _customMedian    = _median;
 }
 
 @end

@@ -1,6 +1,6 @@
 //
 //  KRKmeans.m
-//  KRKmeans V2.3
+//  KRKmeans V2.3.1
 //
 //  Created by Kalvar on 2014/6/30.
 //  Copyright (c) 2014 - 2015年 Kalvar Lin, ilovekalvar@gmail.com. All rights reserved.
@@ -310,7 +310,7 @@ typedef enum KRKmeansDimensional
 /*
  * @ 直接分群，不進行迭代運算
  */
--(void)directCluster
+-(void)directClusterWithCompletion:(KRKmeansClusteringCompletion)_completion
 {
     //If it doesn't have sources, then directly use the original sets to be clustered results.
     if( [_patterns count] < 1 )
@@ -334,8 +334,17 @@ typedef enum KRKmeansDimensional
             ++_index;
         }
         [_results addObjectsFromArray:_sets];
-        //[self _doneClustering];
     }
+    
+    if( _completion )
+    {
+        _completion(YES, _results, _centers, 1);
+    }
+}
+
+-(void)directCluster
+{
+    [self directClusterWithCompletion:nil];
 }
 
 /*

@@ -1,6 +1,6 @@
 //
 //  AppDelegate.h
-//  KRKmeans V2.3
+//  KRKmeans V2.3.1
 //
 //  Created by Kalvar on 2014/6/29.
 //  Copyright (c) 2014 - 2015年 Kalvar Lin, ilovekalvar@gmail.com. All rights reserved.

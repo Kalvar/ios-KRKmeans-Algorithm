@@ -1,6 +1,6 @@
 //
 //  KRKmeans.h
-//  KRKmeans V2.3
+//  KRKmeans V2.3.1
 //
 //  Created by Kalvar on 2014/6/30.
 //  Copyright (c) 2014 - 2015年 Kalvar Lin, ilovekalvar@gmail.com. All rights reserved.
@@ -70,6 +70,7 @@ typedef void(^KRKmeansEachGeneration)(NSInteger times, NSArray *clusters, NSArra
 +(instancetype)sharedKmeans;
 -(instancetype)init;
 -(NSArray *)calculateSetsCenters:(NSArray *)_someSets;
+-(void)directClusterWithCompletion:(KRKmeansClusteringCompletion)_completion;
 -(void)directCluster;
 -(void)clusteringWithCompletion:(KRKmeansClusteringCompletion)_completion eachGeneration:(KRKmeansEachGeneration)_generation;
 -(void)clusteringWithCompletion:(KRKmeansClusteringCompletion)_completion;
