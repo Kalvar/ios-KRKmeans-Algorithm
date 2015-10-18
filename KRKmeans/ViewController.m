@@ -1,6 +1,6 @@
 //
 //  ViewController.m
-//  KRKmeans V2.3.1
+//  KRKmeans V2.4
 //
 //  Created by Kalvar on 2014/6/29.
 //  Copyright (c) 2014 - 2015年 Kalvar Lin, ilovekalvar@gmail.com. All rights reserved.
@@ -56,21 +56,25 @@
 
 -(void)twoDemensional
 {
-    //Two dimesional K-Means, the data set is (x, y)
-    KRKmeans *_krKmeans = [KRKmeans sharedKmeans];
-    //It means A sets. ( and the centers will be calculated here. )
+    // Two dimesional K-Means, the data set is (x, y)
+    KRKmeans *_krKmeans   = [KRKmeans sharedKmeans];
+    
+    // Set to use 2 points of Euclidean Distance method that performance is better
+    _krKmeans.dimensional = KRKmeansDimensionalTwoPoints;
+    
+    // It means A sets. ( and the centers will be calculated here. )
     [_krKmeans addSets:@[@[@1, @1], @[@1, @2], @[@2, @2], @[@3, @2], @[@3, @1]]];
     
-    //It means B sets.
+    // It means B sets.
     [_krKmeans addSets:@[@[@6, @4], @[@7, @6], @[@5, @6], @[@6, @5]]];
     
-    //It means C sets and the center.
+    // It means C sets and the center.
     [_krKmeans addSets:@[@[@7, @8]]];
     
-    //It means D sets.
+    // It means D sets.
     [_krKmeans addSets:@[@[@3, @12], @[@5, @20]]];
     
-    //It means X sets which wanna be clustered, if you don't setup this, the KRKmeans will cluster the original sets to be new groups.
+    // It means X sets which wanna be clustered, if you don't setup this, the KRKmeans will cluster the original sets to be new groups.
     [_krKmeans addPatterns:@[@[@5, @4], @[@3, @4], @[@2, @5], @[@9, @8], @[@3, @20]]];
     
     [_krKmeans clusteringWithCompletion:^(BOOL success, NSArray *clusters, NSArray *centers, NSInteger totalTimes)
@@ -106,7 +110,10 @@
 -(void)multiDemensional
 {
     // Multi-Dimensional K-Means
-    KRKmeans *_multiKmeans = [[KRKmeans alloc] init];
+    KRKmeans *_multiKmeans   = [[KRKmeans alloc] init];
+    
+    // Suggests to use Cosine Similarity doing multi-dimensional clustering
+    _multiKmeans.dimensional = KRKmeansDimensionalMultiByCosine;
     
     // A sets
     [_multiKmeans addSets:@[@[@20, @9, @1, @3, @6, @2], @[@52, @32, @18, @7, @0, @1], @[@30, @18, @2, @27, @18, @5]]];
@@ -135,7 +142,8 @@
 // Following [self twoDemensional] that classified clusters to direct clustering new patterns.
 -(void)directClustering
 {
-    KRKmeans *_kmeans = [KRKmeans sharedKmeans];
+    KRKmeans *_kmeans   = [KRKmeans sharedKmeans];
+    _kmeans.dimensional = KRKmeansDimensionalTwoPoints;
     [_kmeans addPatterns:@[@[@7, @11], @[@18, @6]]];
     [_kmeans directClusterWithCompletion:^(BOOL success, NSArray *clusters, NSArray *centers, NSInteger totalTimes)
     {

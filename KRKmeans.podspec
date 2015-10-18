@@ -1,9 +1,9 @@
 Pod::Spec.new do |s|
   s.name         = "KRKmeans"
-  s.version      = "2.3.1"
+  s.version      = "2.4"
   s.summary      = "KRKmeans is clustering algorithm (クラスタリング分類) that one of Machine Learning methods."
   s.description  = <<-DESC
-                   KRKmeans has implemented K-Means the clustering and classification algorithm (クラスタリング分類) on Machine Learning. It could be used in data mining (データマイニング) and image compression (画像圧縮).
+                   KRKmeans has implemented K-Means the clustering algorithm (クラスタリング分類) and achieved multi-dimensional clustering in this project. KRKmeans could be used in data mining (データマイニング), image compression (画像圧縮) and classification.
                    DESC
   s.homepage     = "https://github.com/Kalvar/ios-KRKmeans-Algorithm"
   s.license      = { :type => 'MIT', :file => 'LICENSE' }

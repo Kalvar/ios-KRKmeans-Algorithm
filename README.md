@@ -1,13 +1,13 @@
 ios-KRKmeans-Algorithm
 =================
 
-KRKmeans has implemented K-Means the clustering and classification algorithm (クラスタリング分類). It could be used in data mining (データマイニング) and image compression (画像圧縮). If you wanna know how to use and the details, you could contact me via email.
+KRKmeans has implemented K-Means the clustering algorithm (クラスタリング分類) and achieved multi-dimensional clustering in this project. KRKmeans could be used in data mining (データマイニング), image compression (画像圧縮) and classification.
 
 #### Podfile
 
 ```ruby
 platform :ios, '7.0'
-pod "KRKmeans", "~> 2.3.1"
+pod "KRKmeans", "~> 2.4"
 ```
 
 ## How to use
@@ -69,6 +69,10 @@ pod "KRKmeans", "~> 2.3.1"
 {
     //Two dimesional K-Means, the data set is (x, y)
     KRKmeans *_krKmeans = [KRKmeans sharedKmeans];
+
+    // Set to use 2 points of Euclidean Distance method that performance is better
+    _krKmeans.dimensional = KRKmeansDimensionalTwoPoints;
+
     //It means A sets. ( and the centers will be calculated here. )
     [_krKmeans addSets:@[@[@1, @1], @[@1, @2], @[@2, @2], @[@3, @2], @[@3, @1]]];
     
@@ -122,6 +126,9 @@ pod "KRKmeans", "~> 2.3.1"
 {
     // Multi-Dimensional K-Means
     KRKmeans *_multiKmeans = [[KRKmeans alloc] init];
+
+    // Suggests to use Cosine Similarity doing multi-dimensional clustering
+    _multiKmeans.dimensional = KRKmeansDimensionalMultiByCosine;
     
     // A sets
     [_multiKmeans addSets:@[@[@20, @9, @1, @3, @6, @2], @[@52, @32, @18, @7, @0, @1], @[@30, @18, @2, @27, @18, @5]]];
@@ -155,7 +162,8 @@ If you have trained clusters that you could directly put new patterns into direc
 // Following [self twoDemensional] that classified clusters to direct clustering new patterns.
 -(void)directClustering
 {
-    KRKmeans *_kmeans = [KRKmeans sharedKmeans];
+    KRKmeans *_kmeans   = [KRKmeans sharedKmeans];
+    _kmeans.dimensional = KRKmeansDimensionalTwoPoints;
     [_kmeans addPatterns:@[@[@7, @11], @[@18, @6]]];
     [_kmeans directClusterWithCompletion:^(BOOL success, NSArray *clusters, NSArray *centers, NSInteger totalTimes)
     {
@@ -166,7 +174,7 @@ If you have trained clusters that you could directly put new patterns into direc
 
 ## Version
 
-V2.3.1
+V2.4
 
 ## License
 
