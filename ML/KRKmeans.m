@@ -1,6 +1,6 @@
 //
 //  KRKmeans.m
-//  KRKmeans V2.4
+//  KRKmeans V2.4.1
 //
 //  Created by Kalvar on 2014/6/30.
 //  Copyright (c) 2014 - 2015年 Kalvar Lin, ilovekalvar@gmail.com. All rights reserved.
@@ -84,7 +84,7 @@
                  powf([[_x1 lastObject] floatValue] - [[_x2 lastObject] floatValue], 2));
 }
 
-// Euclidean distance which multi-dimensional formula
+// Euclidean distance which multi-dimensional formula, 距離越小越近
 -(float)_distanceEuclideanX1:(NSArray *)_x1 x2:(NSArray *)_x2
 {
     NSInteger _index = 0;
@@ -98,7 +98,7 @@
     return (_index > 0) ? sqrtf(_sum) : _sum;
 }
 
-// Cosine Similarity method that multi-dimensional
+// Cosine Similarity method that multi-dimensional, 同歸屬度越大越近
 -(float)_distanceCosineSimilarityX1:(NSArray *)_x1 x2:(NSArray *)_x2
 {
     float _sumA  = 0.0f;
@@ -115,9 +115,11 @@
         _sumAB        += ( _aValue * _bValue );
         ++_index;
     }
-    return ( _sumAB / sqrtf( _sumA * _sumB ) );
+    float _ab = _sumA * _sumB;
+    return ( _ab > 0.0f ) ? ( _sumAB / sqrtf( _ab ) ) : 0.0f;
 }
 
+// 距離概念是越小越近，歸屬度概念是越大越近 ( 或取其差值，使歸屬度同距離越小越近 )
 -(float)_distanceX1:(NSArray *)_x1 x2:(NSArray *)_x2
 {
     float _distance = 0.0f;
@@ -127,7 +129,7 @@
             _distance = [self _distanceEuclidean2PointsX1:_x1 x2:_x2];
             break;
         case KRKmeansDimensionalMultiByCosine:
-            _distance = [self _distanceCosineSimilarityX1:_x1 x2:_x2];
+            _distance = 1.0f - [self _distanceCosineSimilarityX1:_x1 x2:_x2];
             break;
         case KRKmeansDimensionalMultiByEuclidean:
             _distance = [self _distanceEuclideanX1:_x1 x2:_x2];
@@ -170,10 +172,9 @@
                 //個別求出要分群的集合跟其它集合體的距離
                 float _distance = [self _distanceX1:_xySets x2:_eachSets];
                 //比較出最小的距離，即為歸納分群的對象
-                //是第 1 筆 || 當前距離 < 上一次的距離
+                //是第 1 筆 || 當前距離 < 上一次的距離 ( 如距離為歸屬度，則因已在 _distanceX1:X2 裡使用了差值運算，故這裡一樣使用 < 即可 )
                 if( _index == 0 || _distance < _lastDistance )
                 {
-                    //記錄起來
                     _lastDistance = _distance;
                     _closeIndex   = _index;
                 }

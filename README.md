@@ -7,7 +7,7 @@ KRKmeans has implemented K-Means the clustering algorithm (クラスタリング
 
 ```ruby
 platform :ios, '7.0'
-pod "KRKmeans", "~> 2.4"
+pod "KRKmeans", "~> 2.4.1"
 ```
 
 ## How to use
@@ -174,7 +174,7 @@ If you have trained clusters that you could directly put new patterns into direc
 
 ## Version
 
-V2.4
+V2.4.1
 
 ## License
 
