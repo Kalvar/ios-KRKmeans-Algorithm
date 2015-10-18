@@ -75,7 +75,7 @@
 
 @end
 
-@implementation KRKmeans (fixClusters)
+@implementation KRKmeans (fixDistances)
 
 // Euclidean distance, 歐基里德 2 點距離公式
 -(float)_distanceEuclidean2PointsX1:(NSArray *)_x1 x2:(NSArray *)_x2
@@ -138,6 +138,9 @@
     return _distance;
 }
 
+@end
+
+@implementation KRKmeans (fixClusters)
 /*
  * @ 依照群聚中心點 _centers 進行 _sources 群聚分類
  */
