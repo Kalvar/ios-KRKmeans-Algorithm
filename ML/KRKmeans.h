@@ -34,15 +34,13 @@
 #import <Foundation/Foundation.h>
 #import "KRKmeansOne.h"
 
-typedef enum KRKmeansDimensional
+typedef enum KRKmeansDistanceFormula
 {
-    // Two Dimensions that (x, y)
-    KRKmeansDimensionalTwoPoints        = 0,
-    // Multi-Dimensions by Cosine Similarity
-    KRKmeansDimensionalMultiByCosine    = 1,
-    // Multi-Dimensions by Euclidean Distance
-    KRKmeansDimensionalMultiByEuclidean = 2
-}KRKmeansDimensional;
+    // Distance formula by Cosine Similarity
+    KRKmeansDistanceFormulaByCosine    = 0,
+    // Distance formula by Euclidean Distance
+    KRKmeansDistanceFormulaByEuclidean = 1
+}KRKmeansDistanceFormula;
 
 /*
  * @ 訓練完成時
@@ -59,7 +57,7 @@ typedef void(^KRKmeansClusteringCompletion)(BOOL success, NSArray *clusters, NSA
  *   - clusters    : 本次的分群結果
  *   - centers     : 本次的群聚中心點
  */
-typedef void(^KRKmeansEachGeneration)(NSInteger times, NSArray *clusters, NSArray *centers);
+typedef void(^KRKmeansPerIteration)(NSInteger times, NSArray *clusters, NSArray *centers);
 
 @interface KRKmeans : NSObject
 
@@ -74,19 +72,19 @@ typedef void(^KRKmeansEachGeneration)(NSInteger times, NSArray *clusters, NSArra
 //收斂誤差
 @property (nonatomic, assign) float convergenceError;
 //迭代運算上限次數
-@property (nonatomic, assign) NSInteger limitGenerations;
-// 要進行什麼維度的分群
-@property (nonatomic, assign) KRKmeansDimensional dimensional;
+@property (nonatomic, assign) NSInteger maxIteration;
+//要用哪個公式進行多維度分群
+@property (nonatomic, assign) KRKmeansDistanceFormula distanceFormula;
 
 @property (nonatomic, copy) KRKmeansClusteringCompletion clusterCompletion;
-@property (nonatomic, copy) KRKmeansEachGeneration eachGeneration;
+@property (nonatomic, copy) KRKmeansPerIteration perIteration;
 
 +(instancetype)sharedKmeans;
 -(instancetype)init;
 -(NSArray *)calculateSetsCenters:(NSArray *)_someSets;
 -(void)directClusterWithCompletion:(KRKmeansClusteringCompletion)_completion;
 -(void)directCluster;
--(void)clusteringWithCompletion:(KRKmeansClusteringCompletion)_completion eachGeneration:(KRKmeansEachGeneration)_generation;
+-(void)clusteringWithCompletion:(KRKmeansClusteringCompletion)_completion perIteration:(KRKmeansPerIteration)_generation;
 -(void)clusteringWithCompletion:(KRKmeansClusteringCompletion)_completion;
 -(void)clustering;
 -(double)calculateSSE;
@@ -96,6 +94,6 @@ typedef void(^KRKmeansEachGeneration)(NSInteger times, NSArray *clusters, NSArra
 
 #pragma --mark Blocks
 -(void)setClusterCompletion:(KRKmeansClusteringCompletion)_theBlock;
--(void)setEachGeneration:(KRKmeansEachGeneration)_theBlock;
+-(void)setPerIteration:(KRKmeansPerIteration)_theBlock;
 
 @end

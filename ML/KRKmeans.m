@@ -16,35 +16,11 @@
 // 上一次群聚的最大距離
 @property (nonatomic, assign) float lastDistance;
 // 當前的迭代數
-@property (nonatomic, assign) NSInteger currentGenerations;
+@property (nonatomic, assign) NSInteger currentIteration;
 
 @end
 
 @implementation KRKmeans (fixCentrals)
-
-// Use Euclidean Distance method to calculate 2 points distance
--(NSArray *)_useEuclidean2PointsCalculateCenters:(NSArray *)_clusteredSets
-{
-    //存放 i 集合中心位置
-    NSMutableArray *_centrals = [NSMutableArray new];
-    for( NSArray *_everySets in _clusteredSets )
-    {
-        //對每一個子集合做(x, y)累加的動作
-        float _sumX = 0.0f;
-        float _sumY = 0.0f;
-        for( NSArray *_subSets in _everySets )
-        {
-            _sumX += [[_subSets firstObject] floatValue];
-            _sumY += [[_subSets lastObject] floatValue];
-        }
-        NSInteger _length = [_everySets count];
-        float _x          = _sumX / _length;
-        float _y          = _sumY / _length;
-        NSArray *_xySets  = @[[NSNumber numberWithFloat:_x], [NSNumber numberWithFloat:_y]];
-        [_centrals addObject:[_xySets copy]];
-    }
-    return _centrals;
-}
 
 // To average multi-dimensional sub-vectors be central vectors
 -(NSArray *)_useAverageVectorCalculateCenters:(NSArray *)_clusteredSets
@@ -76,13 +52,6 @@
 @end
 
 @implementation KRKmeans (fixDistances)
-
-// Euclidean distance, 歐基里德 2 點距離公式
--(float)_distanceEuclidean2PointsX1:(NSArray *)_x1 x2:(NSArray *)_x2
-{
-    return sqrtf(powf([[_x1 firstObject] floatValue] - [[_x2 firstObject] floatValue], 2) +
-                 powf([[_x1 lastObject] floatValue] - [[_x2 lastObject] floatValue], 2));
-}
 
 // Euclidean distance which multi-dimensional formula, 距離越小越近
 -(float)_distanceEuclideanX1:(NSArray *)_x1 x2:(NSArray *)_x2
@@ -123,15 +92,12 @@
 -(float)_distanceX1:(NSArray *)_x1 x2:(NSArray *)_x2
 {
     float _distance = 0.0f;
-    switch (self.dimensional)
+    switch (self.distanceFormula)
     {
-        case KRKmeansDimensionalTwoPoints:
-            _distance = [self _distanceEuclidean2PointsX1:_x1 x2:_x2];
-            break;
-        case KRKmeansDimensionalMultiByCosine:
+        case KRKmeansDistanceFormulaByCosine:
             _distance = 1.0f - [self _distanceCosineSimilarityX1:_x1 x2:_x2];
             break;
-        case KRKmeansDimensionalMultiByEuclidean:
+        case KRKmeansDistanceFormulaByEuclidean:
             _distance = [self _distanceEuclideanX1:_x1 x2:_x2];
             break;
         default:
@@ -172,7 +138,7 @@
                 //個別求出要分群的集合跟其它集合體的距離
                 float _distance = [self _distanceX1:_xySets x2:_eachSets];
                 //比較出最小的距離，即為歸納分群的對象
-                //是第 1 筆 || 當前距離 < 上一次的距離 ( 如距離為歸屬度，則因已在 _distanceX1:X2 裡使用了差值運算，故這裡一樣使用 < 即可 )
+                //是第 1 筆 || 當前距離 < 上一次的距離 ( 如距離為歸屬度，則因已在 _distanceX1:X2: 裡使用了差值運算，故這裡一樣使用 < 即可 )
                 if( _index == 0 || _distance < _lastDistance )
                 {
                     _lastDistance = _distance;
@@ -221,7 +187,7 @@
     //NSLog(@"_judgedDistance : %f", _judgedDistance);
     
     // 當前中心點最大距離與上次距離的誤差 <= 收斂值 || 迭代運算到了限定次數 ( 避免 Memory Leak )
-    if( ( _judgedDistance - self.lastDistance ) <= self.convergenceError || self.currentGenerations >= self.limitGenerations )
+    if( ( _judgedDistance - self.lastDistance ) <= self.convergenceError || self.currentIteration >= self.maxIteration )
     {
         // 即收斂
         //NSLog(@"收斂 : %f", _judgedDistance - self.lastDistance);
@@ -232,14 +198,14 @@
     else
     {
         self.lastDistance = _judgedDistance;
-        ++self.currentGenerations;
+        ++self.currentIteration;
         _lastCenters      = [NSMutableArray arrayWithArray:_centrals];
         // 繼續跑遞迴分群
         if( [_centrals count] > 0 )
         {
-            if( self.eachGeneration )
+            if( self.perIteration )
             {
-                self.eachGeneration(self.currentGenerations, _newClusters, _centrals);
+                self.perIteration(self.currentIteration, _newClusters, _centrals);
             }
             //把所有的群聚全部打散重新變成一個陣列，效率反而比一個一個 Array 處理的要來的快，因為省去了在多個 Array 間重複操作的時間和存取
             NSMutableArray *_combinedSources = [NSMutableArray new];
@@ -256,7 +222,7 @@
 {
     if( self.clusterCompletion )
     {
-        self.clusterCompletion(YES, self.results, self.centers, self.currentGenerations);
+        self.clusterCompletion(YES, self.results, self.centers, self.currentIteration);
     }
 }
 
@@ -285,15 +251,15 @@
         _patterns           = [NSMutableArray new];
         _results            = [NSMutableArray new];
         _convergenceError   = 0.001f;
-        _limitGenerations   = 5000;
+        _maxIteration       = 5000;
         _clusterCompletion  = nil;
-        _eachGeneration     = nil;
+        _perIteration       = nil;
         
         _lastCenters        = nil;
         _lastDistance       = -1.0f;
-        _currentGenerations = 0;
+        _currentIteration = 0;
         
-        _dimensional        = KRKmeansDimensionalMultiByEuclidean;
+        _distanceFormula    = KRKmeansDistanceFormulaByEuclidean;
     }
     return self;
 }
@@ -303,20 +269,7 @@
  */
 -(NSArray *)calculateSetsCenters:(NSArray *)_clusteredSets
 {
-    NSArray *_centrals = nil;
-    switch (_dimensional)
-    {
-        case KRKmeansDimensionalTwoPoints:
-            _centrals = [self _useEuclidean2PointsCalculateCenters:_clusteredSets];
-            break;
-        case KRKmeansDimensionalMultiByCosine:
-        case KRKmeansDimensionalMultiByEuclidean:
-            _centrals = [self _useAverageVectorCalculateCenters:_clusteredSets];
-            break;
-        default:
-            break;
-    }
-    return _centrals;
+    return [self _useAverageVectorCalculateCenters:_clusteredSets];
 }
 
 /*
@@ -364,18 +317,18 @@
  *   - Two dimensional K-Means
  *   - Multi dimensional K-Means
  */
--(void)clusteringWithCompletion:(KRKmeansClusteringCompletion)_completion eachGeneration:(KRKmeansEachGeneration)_generation
+-(void)clusteringWithCompletion:(KRKmeansClusteringCompletion)_completion perIteration:(KRKmeansPerIteration)_generation
 {
     _clusterCompletion  = _completion;
-    _eachGeneration     = _generation;
-    _currentGenerations = 0;
+    _perIteration       = _generation;
+    _currentIteration = 0;
     [self directCluster];
     [self _renewClusters:_results];
 }
 
 -(void)clusteringWithCompletion:(KRKmeansClusteringCompletion)_completion
 {
-    [self clusteringWithCompletion:_completion eachGeneration:nil];
+    [self clusteringWithCompletion:_completion perIteration:nil];
 }
 
 -(void)clustering
@@ -438,9 +391,9 @@
     _clusterCompletion = _theBlock;
 }
 
--(void)setEachGeneration:(KRKmeansEachGeneration)_theBlock
+-(void)setPerIteration:(KRKmeansPerIteration)_theBlock
 {
-    _eachGeneration    = _theBlock;
+    _perIteration    = _theBlock;
 }
 
 @end

@@ -57,10 +57,10 @@
 -(void)twoDemensional
 {
     // Two dimesional K-Means, the data set is (x, y)
-    KRKmeans *_krKmeans   = [KRKmeans sharedKmeans];
+    KRKmeans *_krKmeans       = [KRKmeans sharedKmeans];
     
     // Set to use 2 points of Euclidean Distance method that performance is better
-    _krKmeans.dimensional = KRKmeansDimensionalTwoPoints;
+    _krKmeans.distanceFormula = KRKmeansDistanceFormulaByEuclidean;
     
     // It means A sets. ( and the centers will be calculated here. )
     [_krKmeans addSets:@[@[@1, @1], @[@1, @2], @[@2, @2], @[@3, @2], @[@3, @1]]];
@@ -84,7 +84,7 @@
         NSLog(@"centers : %@", centers);
         NSLog(@"SSE : %lf", [_krKmeans calculateSSE]);
         //[_krKmeans printResults];
-    } eachGeneration:^(NSInteger times, NSArray *clusters, NSArray *centers)
+    } perIteration:^(NSInteger times, NSArray *clusters, NSArray *centers)
     {
         NSLog(@"times : %li", times);
     }];
@@ -113,7 +113,7 @@
     KRKmeans *_multiKmeans   = [[KRKmeans alloc] init];
     
     // Suggests to use Cosine Similarity doing multi-dimensional clustering
-    _multiKmeans.dimensional = KRKmeansDimensionalMultiByCosine;
+    _multiKmeans.distanceFormula = KRKmeansDistanceFormulaByCosine;
     
     // A sets
     [_multiKmeans addSets:@[@[@20, @9, @1, @3, @6, @2], @[@52, @32, @18, @7, @0, @1], @[@30, @18, @2, @27, @18, @5]]];
@@ -133,7 +133,7 @@
         NSLog(@"centers : %@", centers);
         NSLog(@"SSE : %lf", [_multiKmeans calculateSSE]);
         //[_multiKmeans printResults];
-    } eachGeneration:^(NSInteger times, NSArray *clusters, NSArray *centers)
+    } perIteration:^(NSInteger times, NSArray *clusters, NSArray *centers)
     {
         NSLog(@"times : %li", times);
     }];
@@ -142,8 +142,8 @@
 // Following [self twoDemensional] that classified clusters to direct clustering new patterns.
 -(void)directClustering
 {
-    KRKmeans *_kmeans   = [KRKmeans sharedKmeans];
-    _kmeans.dimensional = KRKmeansDimensionalTwoPoints;
+    KRKmeans *_kmeans       = [KRKmeans sharedKmeans];
+    _kmeans.distanceFormula = KRKmeansDistanceFormulaByEuclidean;
     [_kmeans addPatterns:@[@[@7, @11], @[@18, @6]]];
     [_kmeans directClusterWithCompletion:^(BOOL success, NSArray *clusters, NSArray *centers, NSInteger totalTimes)
     {
