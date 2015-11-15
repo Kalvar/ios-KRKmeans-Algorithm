@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8E6E14EC1AFDBB7B000F743C /* KRKmeans.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E6E14E81AFDBB7B000F743C /* KRKmeans.m */; };
-		8E6E14ED1AFDBB7B000F743C /* KRKmeansOne.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E6E14EA1AFDBB7B000F743C /* KRKmeansOne.m */; };
+		8E3F30E91BF850EE004FEC88 /* KRKmeans.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E3F30E01BF850EE004FEC88 /* KRKmeans.m */; settings = {ASSET_TAGS = (); }; };
+		8E3F30EA1BF850EE004FEC88 /* KRKmeansOne.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E3F30E31BF850EE004FEC88 /* KRKmeansOne.m */; settings = {ASSET_TAGS = (); }; };
+		8E3F30EB1BF850EE004FEC88 /* KRKmeansSaves.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E3F30E61BF850EE004FEC88 /* KRKmeansSaves.m */; settings = {ASSET_TAGS = (); }; };
 		8EE975321960257200335EB2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EE975311960257200335EB2 /* Foundation.framework */; };
 		8EE975341960257200335EB2 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EE975331960257200335EB2 /* CoreGraphics.framework */; };
 		8EE975361960257200335EB2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EE975351960257200335EB2 /* UIKit.framework */; };
@@ -36,11 +37,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		8E6E14E71AFDBB7B000F743C /* KRKmeans.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KRKmeans.h; sourceTree = "<group>"; };
-		8E6E14E81AFDBB7B000F743C /* KRKmeans.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KRKmeans.m; sourceTree = "<group>"; };
-		8E6E14E91AFDBB7B000F743C /* KRKmeansOne.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KRKmeansOne.h; sourceTree = "<group>"; };
-		8E6E14EA1AFDBB7B000F743C /* KRKmeansOne.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KRKmeansOne.m; sourceTree = "<group>"; };
-		8E6E14EB1AFDBB7B000F743C /* NSArray+Statistics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Statistics.h"; sourceTree = "<group>"; };
+		8E3F30DF1BF850EE004FEC88 /* KRKmeans.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KRKmeans.h; sourceTree = "<group>"; };
+		8E3F30E01BF850EE004FEC88 /* KRKmeans.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KRKmeans.m; sourceTree = "<group>"; };
+		8E3F30E21BF850EE004FEC88 /* KRKmeansOne.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KRKmeansOne.h; sourceTree = "<group>"; };
+		8E3F30E31BF850EE004FEC88 /* KRKmeansOne.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KRKmeansOne.m; sourceTree = "<group>"; };
+		8E3F30E51BF850EE004FEC88 /* KRKmeansSaves.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KRKmeansSaves.h; sourceTree = "<group>"; };
+		8E3F30E61BF850EE004FEC88 /* KRKmeansSaves.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KRKmeansSaves.m; sourceTree = "<group>"; };
+		8E3F30E81BF850EE004FEC88 /* NSArray+Statistics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Statistics.h"; sourceTree = "<group>"; };
 		8EE9752E1960257200335EB2 /* KRKmeans.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KRKmeans.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8EE975311960257200335EB2 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		8EE975331960257200335EB2 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -86,22 +89,48 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		8E6E14E61AFDBB7B000F743C /* ML */ = {
+		8E3F30DE1BF850EE004FEC88 /* ML */ = {
 			isa = PBXGroup;
 			children = (
-				8E6E14E71AFDBB7B000F743C /* KRKmeans.h */,
-				8E6E14E81AFDBB7B000F743C /* KRKmeans.m */,
-				8E6E14E91AFDBB7B000F743C /* KRKmeansOne.h */,
-				8E6E14EA1AFDBB7B000F743C /* KRKmeansOne.m */,
-				8E6E14EB1AFDBB7B000F743C /* NSArray+Statistics.h */,
+				8E3F30DF1BF850EE004FEC88 /* KRKmeans.h */,
+				8E3F30E01BF850EE004FEC88 /* KRKmeans.m */,
+				8E3F30E11BF850EE004FEC88 /* KRKmeansOne */,
+				8E3F30E41BF850EE004FEC88 /* KRKmeansSaves */,
+				8E3F30E71BF850EE004FEC88 /* NSArray+Statistics */,
 			);
 			path = ML;
+			sourceTree = "<group>";
+		};
+		8E3F30E11BF850EE004FEC88 /* KRKmeansOne */ = {
+			isa = PBXGroup;
+			children = (
+				8E3F30E21BF850EE004FEC88 /* KRKmeansOne.h */,
+				8E3F30E31BF850EE004FEC88 /* KRKmeansOne.m */,
+			);
+			path = KRKmeansOne;
+			sourceTree = "<group>";
+		};
+		8E3F30E41BF850EE004FEC88 /* KRKmeansSaves */ = {
+			isa = PBXGroup;
+			children = (
+				8E3F30E51BF850EE004FEC88 /* KRKmeansSaves.h */,
+				8E3F30E61BF850EE004FEC88 /* KRKmeansSaves.m */,
+			);
+			path = KRKmeansSaves;
+			sourceTree = "<group>";
+		};
+		8E3F30E71BF850EE004FEC88 /* NSArray+Statistics */ = {
+			isa = PBXGroup;
+			children = (
+				8E3F30E81BF850EE004FEC88 /* NSArray+Statistics.h */,
+			);
+			path = "NSArray+Statistics";
 			sourceTree = "<group>";
 		};
 		8EE975251960257100335EB2 = {
 			isa = PBXGroup;
 			children = (
-				8E6E14E61AFDBB7B000F743C /* ML */,
+				8E3F30DE1BF850EE004FEC88 /* ML */,
 				8EE975371960257200335EB2 /* KRKmeans */,
 				8EE975381960257200335EB2 /* Supporting Files */,
 				8EE975561960257200335EB2 /* KRKmeansTests */,
@@ -271,10 +300,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				8EE975481960257200335EB2 /* ViewController.m in Sources */,
+				8E3F30E91BF850EE004FEC88 /* KRKmeans.m in Sources */,
 				8EE975421960257200335EB2 /* AppDelegate.m in Sources */,
+				8E3F30EA1BF850EE004FEC88 /* KRKmeansOne.m in Sources */,
+				8E3F30EB1BF850EE004FEC88 /* KRKmeansSaves.m in Sources */,
 				8EE9753E1960257200335EB2 /* main.m in Sources */,
-				8E6E14ED1AFDBB7B000F743C /* KRKmeansOne.m in Sources */,
-				8E6E14EC1AFDBB7B000F743C /* KRKmeans.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

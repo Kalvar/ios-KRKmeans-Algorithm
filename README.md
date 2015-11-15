@@ -7,7 +7,7 @@ KRKmeans has implemented K-Means the clustering algorithm (クラスタリング
 
 ```ruby
 platform :ios, '7.0'
-pod "KRKmeans", "~> 2.4.1"
+pod "KRKmeans", "~> 2.5.0"
 ```
 
 ## How to use
@@ -18,7 +18,7 @@ pod "KRKmeans", "~> 2.4.1"
 #import "KRKmeans.h"
 ```
 
-##### One dimensonal clustering
+#### One dimensonal clustering
 
 ``` objective-c
 -(void)oneDemensional
@@ -62,7 +62,7 @@ pod "KRKmeans", "~> 2.4.1"
 
 ```
 
-##### Two dimensonal clustering
+#### Two dimensonal clustering
 
 ``` objective-c
 -(void)twoDemensional
@@ -119,7 +119,7 @@ pod "KRKmeans", "~> 2.4.1"
 }
 ```
 
-##### Multi-dimensonal clustering
+#### Multi-dimensonal clustering
 
 ``` objective-c
 -(void)multiDemensional
@@ -154,7 +154,7 @@ pod "KRKmeans", "~> 2.4.1"
 }
 ```
 
-##### Remarks
+#### Directly clustering
 
 If you have trained clusters that you could directly put new patterns into directly clustering.
 
@@ -172,9 +172,51 @@ If you have trained clusters that you could directly put new patterns into direc
 }
 ```
 
+#### Automatic clustering
+
+Automatic picking the group-centers by your wishes number.
+
+``` objective-c
+-(void)autoClustering
+{
+    KRKmeans *_krKmeans         = [[KRKmeans alloc] init];
+    _krKmeans.doneThenSave      = YES;
+    _krKmeans.distanceFormula   = KRKmeansDistanceFormulaByEuclidean; // KRKmeansDistanceFormulaByCosine
+    _krKmeans.autoClusterNumber = 3;
+    [_krKmeans addPatterns:@[@[@1, @1], @[@1, @2], @[@2, @2], @[@3, @2],
+                             @[@3, @1], @[@5, @4], @[@3, @4], @[@2, @5],
+                             @[@9, @8], @[@3, @20], @[@6, @4], @[@7, @6],
+                             @[@5, @6], @[@6, @5], @[@7, @8], @[@3, @12],
+                             @[@5, @20]]];
+    [_krKmeans clusteringWithCompletion:^(BOOL success, NSArray *clusters, NSArray *centers, NSInteger totalTimes) {
+        NSLog(@"totalTimes : %li", totalTimes);
+        NSLog(@"clusters : %@", clusters);
+        NSLog(@"centers : %@", centers);
+        NSLog(@"SSE : %lf", [_krKmeans calculateSSE]);
+    } perIteration:^(NSInteger times, NSArray *clusters, NSArray *centers) {
+        NSLog(@"times : %li", times);
+    }];
+}
+```
+
+#### Recalling tranined clasification group-centers
+
+``` objective-c
+// Recalling the tranined groups to directly classify patterns
+-(void)recallingTraninedCenters
+{
+    KRKmeans *_krKmeans = [KRKmeans sharedKmeans];
+    [_krKmeans recallCenters];
+    [_krKmeans addPatterns:@[@[@21, @12], @[@13, @21], @[@12, @5], @[@3, @8]]];
+    [_krKmeans directClusterWithCompletion:^(BOOL success, NSArray *clusters, NSArray *centers, NSInteger totalTimes) {
+        [_krKmeans printResults];
+    }];
+}
+```
+
 ## Version
 
-V2.4.1
+V2.5.0
 
 ## License
 

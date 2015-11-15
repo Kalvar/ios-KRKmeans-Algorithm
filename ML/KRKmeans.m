@@ -8,6 +8,7 @@
 
 #import "KRKmeans.h"
 #import "NSArray+Statistics.h"
+#import "KRKmeansSaves.h"
     
 @interface KRKmeans ()
 
@@ -17,6 +18,31 @@
 @property (nonatomic, assign) float lastDistance;
 // 當前的迭代數
 @property (nonatomic, assign) NSInteger currentIteration;
+// 儲存訓練好的群心
+@property (nonatomic, strong) KRKmeansSaves *trainedSaves;
+
+@end
+
+@implementation KRKmeans(fixMaths)
+
+-(NSInteger)_randomMax:(NSInteger)_maxValue min:(NSInteger)_minValue
+{
+    return ( arc4random() / ( RAND_MAX * 2.0f ) ) * (_maxValue - _minValue) + _minValue;;
+}
+
+@end
+
+@implementation KRKmeans(fixSaves)
+
+-(void)_saveCenters
+{
+    [self.trainedSaves saveCenters:self.centers];
+}
+
+-(NSArray *)_fetchSavedCenters
+{
+    return [self.trainedSaves fetchCenters];
+}
 
 @end
 
@@ -164,40 +190,35 @@
      *   - 3. 比較是否 <= 收斂誤差，如是，即停止運算，如否，則進行第 4 步驟的遞迴迭代運算
      *   - 4. 依照這群聚中心點，進行迭代運算，重新計算與分類所有的已分類好的群聚，並重複第 1 到第 3 步驟
      */
-    NSArray *_centrals    = [self calculateSetsCenters:_newClusters];
-    //NSLog(@"_centrals : %@", _centrals);
+    NSArray *_centrals   = [self calculateSetsCenters:_newClusters];
     [self.centers removeAllObjects];
     [self.centers addObjectsFromArray:_centrals];
     // 取出最大的距離是多少 (也可改取最小距離進行判斷)
-    float _judgedDistance = -1.0f;
-    int _index            = 0;
+    float _errorDistance = -1.0f;
+    int _index           = 0;
     // 比較新舊群聚中心點的差值
     for( NSArray *_newCenters in _centrals )
     {
         float _distance = [self _distanceX1:[_lastCenters objectAtIndex:_index] x2:_newCenters];
-        //NSLog(@"_distance : %f", _distance);
-        // 2 點距離不會有負數，直接比較就行
-        // 多維距離 (Cosine) 會有負數，必須取絕對值 (?)
-        if( _judgedDistance < 0.0f || _distance > _judgedDistance )
+        if( _errorDistance < 0.0f || _distance > _errorDistance )
         {
-            _judgedDistance = _distance;
+            _errorDistance = _distance;
         }
         ++_index;
     }
-    //NSLog(@"_judgedDistance : %f", _judgedDistance);
     
     // 當前中心點最大距離與上次距離的誤差 <= 收斂值 || 迭代運算到了限定次數 ( 避免 Memory Leak )
-    if( ( _judgedDistance - self.lastDistance ) <= self.convergenceError || self.currentIteration >= self.maxIteration )
+    if( ( _errorDistance - self.lastDistance ) <= self.convergenceError || self.currentIteration >= self.maxIteration )
     {
         // 即收斂
-        //NSLog(@"收斂 : %f", _judgedDistance - self.lastDistance);
+        //NSLog(@"收斂 : %f", _errorDistance - self.lastDistance);
         [self.results removeAllObjects];
         [self.results addObjectsFromArray:_newClusters];
         [self _doneClustering];
     }
     else
     {
-        self.lastDistance = _judgedDistance;
+        self.lastDistance = _errorDistance;
         ++self.currentIteration;
         _lastCenters      = [NSMutableArray arrayWithArray:_centrals];
         // 繼續跑遞迴分群
@@ -220,6 +241,11 @@
 
 -(void)_doneClustering
 {
+    if( self.doneThenSave )
+    {
+        [self _saveCenters];
+    }
+    
     if( self.clusterCompletion )
     {
         self.clusterCompletion(YES, self.results, self.centers, self.currentIteration);
@@ -234,8 +260,7 @@
 {
     static dispatch_once_t pred;
     static KRKmeans *_object = nil;
-    dispatch_once(&pred, ^
-    {
+    dispatch_once(&pred, ^{
         _object = [[KRKmeans alloc] init];
     });
     return _object;
@@ -252,14 +277,17 @@
         _results            = [NSMutableArray new];
         _convergenceError   = 0.001f;
         _maxIteration       = 5000;
+        _doneThenSave       = YES;
+        _autoClusterNumber  = 0;
         _clusterCompletion  = nil;
         _perIteration       = nil;
         
         _lastCenters        = nil;
         _lastDistance       = -1.0f;
-        _currentIteration = 0;
+        _currentIteration   = 0;
         
         _distanceFormula    = KRKmeansDistanceFormulaByEuclidean;
+        _trainedSaves       = [KRKmeansSaves sharedInstance];
     }
     return self;
 }
@@ -272,21 +300,62 @@
     return [self _useAverageVectorCalculateCenters:_clusteredSets];
 }
 
+// 依期望分幾群來進行自動分群的中心點選擇
+// 如有在外部使用此函式，就能不必再設定 autoClusterNumber
+-(void)autoPickingCentersByNumber:(NSInteger)_pickNumber
+{
+    // Random picking some patterns to be default centers.
+    // 均分要分多少群的區塊來進行亂數選取其中要當 Default Centers 的點
+    NSInteger _patternsCount = [_patterns count];
+    if( _patternsCount < _pickNumber )
+    {
+        _pickNumber = _patternsCount;
+    }
+    _autoClusterNumber     = _pickNumber;
+    NSInteger _chunkLength = ( _patternsCount - 1 ) / _pickNumber;
+    NSInteger _maxValue    = 0;
+    NSInteger _minValue    = 0;
+    for( NSInteger _i = 0; _i < _pickNumber; ++_i )
+    {
+        _maxValue += _chunkLength;
+        [self addSets:@[[_patterns objectAtIndex:[self _randomMax:_maxValue min:_minValue]]]];
+        _minValue  = _maxValue + 1;
+    }
+}
+
 /*
  * @ 直接分群，不進行迭代運算
+ *   - 但這裡會被重覆在別的函式裡用於迭代運算裡
  */
 -(void)directClusterWithCompletion:(KRKmeansClusteringCompletion)_completion
 {
-    //If it doesn't have sources, then directly use the original sets to be clustered results.
+    // If it doesn't have sources, then directly use the original sets to be clustered results, just run this.
     if( [_patterns count] < 1 )
     {
         [_results addObjectsFromArray:_sets];
         return;
     }
     
+    // If we wanna directly cluster patterns without already classified group-sets, just run this.
+    if( [_sets count] < 1 )
+    {
+        // If we wanna auto cluster the patterns without setting classified group-sets.
+        // 自動分群，不事先預設分類好的群聚
+        if( _autoClusterNumber > 0 )
+        {
+            [self autoPickingCentersByNumber:_autoClusterNumber];
+        }
+        else
+        {
+            [_results addObjectsFromArray:_patterns];
+            return;
+        }
+    }
+    
+    // We already decided the classified group-sets and wanna be clustered patterns, then run this.
     if( [_sets count] > 0 && [_patterns count] > 0 )
     {
-        //先求出每一個集合陣列的中心位置
+        // 先求出每一個集合陣列的中心位置
         NSArray *_centrals             = [self calculateSetsCenters:_sets];
         [_centers removeAllObjects];
         [_centers addObjectsFromArray:_centrals];
@@ -298,6 +367,7 @@
             [[_sets objectAtIndex:_index] addObjectsFromArray:[_clusters copy]];
             ++_index;
         }
+        [_results removeAllObjects];
         [_results addObjectsFromArray:_sets];
     }
     
@@ -321,8 +391,9 @@
 {
     _clusterCompletion  = _completion;
     _perIteration       = _generation;
-    _currentIteration = 0;
+    _currentIteration   = 0;
     [self directCluster];
+    // Then directly passing the results array to renew the group-sets of classification.
     [self _renewClusters:_results];
 }
 
@@ -364,12 +435,23 @@
  */
 -(void)addSets:(NSArray *)_theSets
 {
-    [_sets addObject:[[NSMutableArray alloc] initWithArray:_theSets]];
+    [_sets addObject:[_theSets mutableCopy]];
 }
 
 -(void)addPatterns:(NSArray *)_theSets
 {
     [_patterns addObjectsFromArray:_theSets];
+}
+
+// Recalling trained centers which saved in KRKmeansSaves
+-(void)recallCenters
+{
+    NSArray *_savedCenters = [self _fetchSavedCenters];
+    if( nil != _savedCenters )
+    {
+        [_centers removeAllObjects];
+        [_centers addObjectsFromArray:_savedCenters];
+    }
 }
 
 -(void)printResults
@@ -379,7 +461,7 @@
     int _i = 1;
     for( NSArray *_clusters in _results )
     {
-        NSLog(@"clusters (%i) : %@", _i, _clusters);
+        NSLog(@"clusters (#%i) : %@", _i, _clusters);
         NSLog(@"====================================\n\n\n");
         ++_i;
     }
@@ -393,7 +475,14 @@
 
 -(void)setPerIteration:(KRKmeansPerIteration)_theBlock
 {
-    _perIteration    = _theBlock;
+    _perIteration = _theBlock;
+}
+
+#pragma --mark Setters
+// 設定要自動分類為幾群
+-(void)setAutoClusterNumber:(NSInteger)_number
+{
+    _autoClusterNumber = _number;
 }
 
 @end

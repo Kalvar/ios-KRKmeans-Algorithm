@@ -75,21 +75,32 @@ typedef void(^KRKmeansPerIteration)(NSInteger times, NSArray *clusters, NSArray 
 @property (nonatomic, assign) NSInteger maxIteration;
 //要用哪個公式進行多維度分群
 @property (nonatomic, assign) KRKmeansDistanceFormula distanceFormula;
+//訓練完是否自動儲存
+@property (nonatomic, assign) BOOL doneThenSave;
+//Auto clustering numbers (要自動分成幾群)
+@property (nonatomic, assign) NSInteger autoClusterNumber;
 
 @property (nonatomic, copy) KRKmeansClusteringCompletion clusterCompletion;
 @property (nonatomic, copy) KRKmeansPerIteration perIteration;
 
 +(instancetype)sharedKmeans;
 -(instancetype)init;
+
 -(NSArray *)calculateSetsCenters:(NSArray *)_someSets;
+-(void)autoPickingCentersByNumber:(NSInteger)_pickNumber;
+
 -(void)directClusterWithCompletion:(KRKmeansClusteringCompletion)_completion;
 -(void)directCluster;
 -(void)clusteringWithCompletion:(KRKmeansClusteringCompletion)_completion perIteration:(KRKmeansPerIteration)_generation;
 -(void)clusteringWithCompletion:(KRKmeansClusteringCompletion)_completion;
 -(void)clustering;
+
 -(double)calculateSSE;
+
 -(void)addSets:(NSArray *)_theSets;
 -(void)addPatterns:(NSArray *)_theSets;
+
+-(void)recallCenters;
 -(void)printResults;
 
 #pragma --mark Blocks
