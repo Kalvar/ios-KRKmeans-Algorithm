@@ -71,7 +71,7 @@ pod "KRKmeans", "~> 2.5.0"
     KRKmeans *_krKmeans = [KRKmeans sharedKmeans];
 
     // Set to use 2 points of Euclidean Distance method that performance is better
-    _krKmeans.dimensional = KRKmeansDimensionalTwoPoints;
+    _krKmeans.dimensional = KRKmeansDistanceFormulaByEuclidean;
 
     //It means A sets. ( and the centers will be calculated here. )
     [_krKmeans addSets:@[@[@1, @1], @[@1, @2], @[@2, @2], @[@3, @2], @[@3, @1]]];
@@ -163,7 +163,7 @@ If you have trained clusters that you could directly put new patterns into direc
 -(void)directClustering
 {
     KRKmeans *_kmeans   = [KRKmeans sharedKmeans];
-    _kmeans.dimensional = KRKmeansDimensionalTwoPoints;
+    _kmeans.dimensional = KRKmeansDistanceFormulaByEuclidean;
     [_kmeans addPatterns:@[@[@7, @11], @[@18, @6]]];
     [_kmeans directClusterWithCompletion:^(BOOL success, NSArray *clusters, NSArray *centers, NSInteger totalTimes)
     {
