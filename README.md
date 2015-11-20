@@ -70,7 +70,7 @@ pod "KRKmeans", "~> 2.5.0"
     //Two dimesional K-Means, the data set is (x, y)
     KRKmeans *_krKmeans = [KRKmeans sharedKmeans];
 
-    // Set to use 2 points of Euclidean Distance method that performance is better
+    // Set to Euclidean Distance method that performance is better
     _krKmeans.dimensional = KRKmeansDistanceFormulaByEuclidean;
 
     //It means A sets. ( and the centers will be calculated here. )
