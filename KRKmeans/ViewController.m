@@ -145,7 +145,10 @@
         NSLog(@"clusters : %@", clusters);
         NSLog(@"centers : %@", centers);
         NSLog(@"SSE : %lf", [_multiKmeans calculateSSE]);
-        //[_multiKmeans printResults];
+        [_multiKmeans directClusterPatterns:@[@[@21, @9, @3, @11, @7, @15]] completion:^(BOOL success, NSArray *clusters, NSArray *centers, NSInteger totalTimes)
+        {
+            [_multiKmeans printResults];
+        }];
     } perIteration:^(NSInteger times, NSArray *clusters, NSArray *centers)
     {
         NSLog(@"times : %li", times);

@@ -90,7 +90,9 @@ typedef void(^KRKmeansPerIteration)(NSInteger times, NSArray *clusters, NSArray 
 -(void)autoPickingCentersByNumber:(NSInteger)_pickNumber;
 
 -(void)directClusterWithCompletion:(KRKmeansClusteringCompletion)_completion;
+-(void)directClusterPatterns:(NSArray *)_newPatterns completion:(KRKmeansClusteringCompletion)_completion;
 -(void)directCluster;
+
 -(void)clusteringWithCompletion:(KRKmeansClusteringCompletion)_completion perIteration:(KRKmeansPerIteration)_generation;
 -(void)clusteringWithCompletion:(KRKmeansClusteringCompletion)_completion;
 -(void)clustering;

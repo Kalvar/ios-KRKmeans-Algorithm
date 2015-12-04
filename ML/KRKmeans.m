@@ -377,6 +377,16 @@
     }
 }
 
+-(void)directClusterPatterns:(NSArray *)_newPatterns completion:(KRKmeansClusteringCompletion)_completion
+{
+    if( _newPatterns != nil && [_newPatterns count] > 0 )
+    {
+        [_patterns removeAllObjects];
+        [self addPatterns:_newPatterns];
+        [self directClusterWithCompletion:_completion];
+    }
+}
+
 -(void)directCluster
 {
     [self directClusterWithCompletion:nil];

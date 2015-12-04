@@ -7,7 +7,7 @@ KRKmeans has implemented K-Means the clustering algorithm (クラスタリング
 
 ```ruby
 platform :ios, '7.0'
-pod "KRKmeans", "~> 2.5.0"
+pod "KRKmeans", "~> 2.5.1"
 ```
 
 ## How to use
@@ -147,6 +147,10 @@ pod "KRKmeans", "~> 2.5.0"
         NSLog(@"clusters : %@", clusters);
         NSLog(@"centers : %@", centers);
         NSLog(@"SSE : %lf", [_multiKmeans calculateSSE]);
+        [_multiKmeans directClusterPatterns:@[@[@21, @9, @3, @11, @7, @15]] completion:^(BOOL success, NSArray *clusters, NSArray *centers, NSInteger totalTimes)
+        {
+            [_multiKmeans printResults];
+        }];
     } eachGeneration:^(NSInteger times, NSArray *clusters, NSArray *centers)
     {
         NSLog(@"times : %li", times);
@@ -216,7 +220,7 @@ Automatic picking the group-centers by your wishes number.
 
 ## Version
 
-V2.5.0
+V2.5.1
 
 ## License
 

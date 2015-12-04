@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "KRKmeans"
-  s.version      = "2.5.0"
+  s.version      = "2.5.1"
   s.summary      = "KRKmeans is clustering algorithm (クラスタリング分類) that one of Machine Learning methods."
   s.description  = <<-DESC
                    KRKmeans has implemented K-Means the clustering algorithm (クラスタリング分類) and achieved multi-dimensional clustering in this project. KRKmeans could be used in data mining (データマイニング), image compression (画像圧縮) and classification.
