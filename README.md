@@ -7,7 +7,7 @@ KRKmeans has implemented K-Means the clustering algorithm (クラスタリング
 
 ```ruby
 platform :ios, '7.0'
-pod "KRKmeans", "~> 2.5.1"
+pod "KRKmeans", "~> 2.5.2"
 ```
 
 ## How to use
@@ -16,6 +16,14 @@ pod "KRKmeans", "~> 2.5.1"
 
 ``` objective-c
 #import "KRKmeans.h"
+```
+
+##### Distance Methods
+
+``` objective-c
+KRKmeansDistanceFormulaEuclidean
+KRKmeansDistanceFormulaCosine
+KRKmeansDistanceFormulaRBF
 ```
 
 #### One dimensonal clustering
@@ -71,7 +79,7 @@ pod "KRKmeans", "~> 2.5.1"
     KRKmeans *_krKmeans = [KRKmeans sharedKmeans];
 
     // Set to Euclidean Distance method that performance is better
-    _krKmeans.dimensional = KRKmeansDistanceFormulaByEuclidean;
+    _krKmeans.dimensional = KRKmeansDistanceFormulaEuclidean;
 
     //It means A sets. ( and the centers will be calculated here. )
     [_krKmeans addSets:@[@[@1, @1], @[@1, @2], @[@2, @2], @[@3, @2], @[@3, @1]]];
@@ -128,7 +136,7 @@ pod "KRKmeans", "~> 2.5.1"
     KRKmeans *_multiKmeans = [[KRKmeans alloc] init];
 
     // Suggests to use Cosine Similarity doing multi-dimensional clustering
-    _multiKmeans.dimensional = KRKmeansDimensionalMultiByCosine;
+    _multiKmeans.dimensional = KRKmeansDistanceFormulaCosine;
     
     // A sets
     [_multiKmeans addSets:@[@[@20, @9, @1, @3, @6, @2], @[@52, @32, @18, @7, @0, @1], @[@30, @18, @2, @27, @18, @5]]];
@@ -167,7 +175,7 @@ If you have trained clusters that you could directly put new patterns into direc
 -(void)directClustering
 {
     KRKmeans *_kmeans   = [KRKmeans sharedKmeans];
-    _kmeans.dimensional = KRKmeansDistanceFormulaByEuclidean;
+    _kmeans.dimensional = KRKmeansDistanceFormulaEuclidean;
     [_kmeans addPatterns:@[@[@7, @11], @[@18, @6]]];
     [_kmeans directClusterWithCompletion:^(BOOL success, NSArray *clusters, NSArray *centers, NSInteger totalTimes)
     {
@@ -185,7 +193,7 @@ Automatic picking the group-centers by your wishes number.
 {
     KRKmeans *_krKmeans         = [[KRKmeans alloc] init];
     _krKmeans.doneThenSave      = YES;
-    _krKmeans.distanceFormula   = KRKmeansDistanceFormulaByEuclidean; // KRKmeansDistanceFormulaByCosine
+    _krKmeans.distanceFormula   = KRKmeansDistanceFormulaEuclidean; // KRKmeansDistanceFormulaCosine
     _krKmeans.autoClusterNumber = 3;
     [_krKmeans addPatterns:@[@[@1, @1], @[@1, @2], @[@2, @2], @[@3, @2],
                              @[@3, @1], @[@5, @4], @[@3, @4], @[@2, @5],
@@ -220,7 +228,7 @@ Automatic picking the group-centers by your wishes number.
 
 ## Version
 
-V2.5.1
+V2.5.2
 
 ## License
 

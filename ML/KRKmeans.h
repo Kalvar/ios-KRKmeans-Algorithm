@@ -37,9 +37,11 @@
 typedef enum KRKmeansDistanceFormula
 {
     // Distance formula by Cosine Similarity
-    KRKmeansDistanceFormulaByCosine    = 0,
+    KRKmeansDistanceFormulaCosine    = 0,
     // Distance formula by Euclidean Distance
-    KRKmeansDistanceFormulaByEuclidean = 1
+    KRKmeansDistanceFormulaEuclidean = 1,
+    // Distance formula by RBF
+    KRKmeansDistanceFormulaRBF       = 2
 }KRKmeansDistanceFormula;
 
 /*
@@ -79,6 +81,8 @@ typedef void(^KRKmeansPerIteration)(NSInteger times, NSArray *clusters, NSArray 
 @property (nonatomic, assign) BOOL doneThenSave;
 //Auto clustering numbers (要自動分成幾群)
 @property (nonatomic, assign) NSInteger autoClusterNumber;
+// If we used RBF be the kernel that can setup this considition
+@property (nonatomic, assign) float sigma;
 
 @property (nonatomic, copy) KRKmeansClusteringCompletion clusterCompletion;
 @property (nonatomic, copy) KRKmeansPerIteration perIteration;

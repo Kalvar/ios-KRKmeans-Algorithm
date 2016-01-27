@@ -61,7 +61,7 @@
     _krKmeans.doneThenSave    = YES;
     
     // Set to use 2 points of Euclidean Distance method that performance is better
-    _krKmeans.distanceFormula = KRKmeansDistanceFormulaByEuclidean; // KRKmeansDistanceFormulaByCosine
+    _krKmeans.distanceFormula = KRKmeansDistanceFormulaEuclidean; // KRKmeansDistanceFormulaByCosine
     
     // It means A sets. ( and the centers will be calculated here. )
     [_krKmeans addSets:@[@[@1, @1], @[@1, @2], @[@2, @2], @[@3, @2], @[@3, @1]]];
@@ -126,7 +126,7 @@
     _multiKmeans.doneThenSave = YES;
     
     // Suggests to use Cosine Similarity doing multi-dimensional clustering
-    _multiKmeans.distanceFormula = KRKmeansDistanceFormulaByCosine; // KRKmeansDistanceFormulaByEuclidean
+    _multiKmeans.distanceFormula = KRKmeansDistanceFormulaRBF; // KRKmeansDistanceFormulaCosine; // KRKmeansDistanceFormulaByEuclidean
     
     // A sets
     [_multiKmeans addSets:@[@[@20, @9, @1, @3, @6, @2], @[@52, @32, @18, @7, @0, @1], @[@30, @18, @2, @27, @18, @5]]];
@@ -159,7 +159,7 @@
 -(void)directClustering
 {
     KRKmeans *_kmeans       = [KRKmeans sharedKmeans];
-    _kmeans.distanceFormula = KRKmeansDistanceFormulaByEuclidean;
+    _kmeans.distanceFormula = KRKmeansDistanceFormulaEuclidean;
     [_kmeans addPatterns:@[@[@7, @11], @[@18, @6]]];
     [_kmeans directClusterWithCompletion:^(BOOL success, NSArray *clusters, NSArray *centers, NSInteger totalTimes)
     {
@@ -171,7 +171,7 @@
 {
     KRKmeans *_krKmeans         = [[KRKmeans alloc] init];
     _krKmeans.doneThenSave      = YES;
-    _krKmeans.distanceFormula   = KRKmeansDistanceFormulaByEuclidean; // KRKmeansDistanceFormulaByCosine
+    _krKmeans.distanceFormula   = KRKmeansDistanceFormulaEuclidean; // KRKmeansDistanceFormulaByCosine
     _krKmeans.autoClusterNumber = 3;
     [_krKmeans addPatterns:@[@[@1, @1], @[@1, @2], @[@2, @2], @[@3, @2],
                              @[@3, @1], @[@5, @4], @[@3, @4], @[@2, @5],
