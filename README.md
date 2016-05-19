@@ -7,7 +7,7 @@ KRKmeans has implemented K-Means the clustering algorithm (クラスタリング
 
 ```ruby
 platform :ios, '7.0'
-pod "KRKmeans", "~> 2.5.2"
+pod "KRKmeans", "~> 2.5.3"
 ```
 
 ## How to use
@@ -189,7 +189,7 @@ If you have trained clusters that you could directly put new patterns into direc
 Automatic picking the group-centers by your wishes number.
 
 ``` objective-c
--(void)autoClustering
+-(void)randomClustering
 {
     KRKmeans *_krKmeans         = [[KRKmeans alloc] init];
     _krKmeans.doneThenSave      = YES;
@@ -228,7 +228,7 @@ Automatic picking the group-centers by your wishes number.
 
 ## Version
 
-V2.5.2
+V2.5.3
 
 ## License
 

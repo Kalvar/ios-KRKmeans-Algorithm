@@ -167,7 +167,7 @@
     }];
 }
 
--(void)autoClustering
+-(void)randomClustering
 {
     KRKmeans *_krKmeans         = [[KRKmeans alloc] init];
     _krKmeans.doneThenSave      = YES;
@@ -200,7 +200,8 @@
     [self recallingTraninedCenters];
     [self multiDemensional];
     [self directClustering];
-    [self autoClustering];
+    [self randomClustering];
+    
 }
 
 - (void)didReceiveMemoryWarning

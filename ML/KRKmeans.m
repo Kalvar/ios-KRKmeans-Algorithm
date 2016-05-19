@@ -153,6 +153,31 @@
 @end
 
 @implementation KRKmeans (fixClusters)
+// 用洗牌法進行亂數取出
+-(NSArray *)randomizeArray:(NSArray *)_patterns
+{
+    NSMutableArray *_samples = [_patterns mutableCopy];
+    NSInteger _totalLength   = [_patterns count];
+    for( NSInteger _i=0; _i<_totalLength; _i++ )
+    {
+        NSInteger _random1 = ( arc4random() % _totalLength );
+        NSInteger _random2 = ( arc4random() % _totalLength );
+        // 如果亂數重複，則用範本數長度減去亂數值
+        if( _random1 == _random2 )
+        {
+            _random2 = _totalLength - _random2;
+        }
+        // 進行陣列交換
+        // 先取出 random1 位置的 Object
+        NSArray *_temp = [_samples objectAtIndex:_random1];
+        // 再將 random2 位置的 Object 塞回去 random1 位置
+        [_samples replaceObjectAtIndex:_random1 withObject:[_samples objectAtIndex:_random2]];
+        // 最後將剛才取出的 random1 Object 塞回去 random2 即可
+        [_samples replaceObjectAtIndex:_random2 withObject:_temp];
+    }
+    return _samples;
+}
+
 /*
  * @ 依照群聚中心點 _centers 進行 _sources 群聚分類
  */
@@ -320,26 +345,25 @@
     return [self _useAverageVectorCalculateCenters:_clusteredSets];
 }
 
-// 依期望分幾群來進行自動分群的中心點選擇
+// 依期望分幾群來進行隨機自動分群的中心點選擇，如 _pickNumber 代入 0 則為完全由系統決定的隨機分群
 // 如有在外部使用此函式，就能不必再設定 autoClusterNumber
--(void)autoPickingCentersByNumber:(NSInteger)_pickNumber
+-(void)randomPickingCentersByNumber:(NSInteger)_pickNumber
 {
-    // Random picking some patterns to be default centers.
-    // 均分要分多少群的區塊來進行亂數選取其中要當 Default Centers 的點
-    NSInteger _patternsCount = [_patterns count];
-    if( _patternsCount < _pickNumber )
+    NSInteger _totalLength = [_patterns count];
+    // 先正規化 pickNumber 以避免 <= 0 和 > _totalLength 的狀況
+    if( _pickNumber <= 0 )
     {
-        _pickNumber = _patternsCount;
+        _pickNumber = ( arc4random() % _totalLength );
     }
-    _autoClusterNumber     = _pickNumber;
-    NSInteger _chunkLength = ( _patternsCount - 1 ) / _pickNumber;
-    NSInteger _maxValue    = 0;
-    NSInteger _minValue    = 0;
+    else if( _pickNumber > _totalLength )
+    {
+        _pickNumber = _totalLength;
+    }
+    
+    NSArray *_randomizedPatterns = [self randomizeArray:_patterns];
     for( NSInteger _i = 0; _i < _pickNumber; ++_i )
     {
-        _maxValue += _chunkLength;
-        [self addSets:@[[_patterns objectAtIndex:[self _randomMax:_maxValue min:_minValue]]]];
-        _minValue  = _maxValue + 1;
+        [self addSets:@[[_randomizedPatterns objectAtIndex:_i]]];
     }
 }
 
@@ -363,7 +387,7 @@
         // 自動分群，不事先預設分類好的群聚
         if( _autoClusterNumber > 0 )
         {
-            [self autoPickingCentersByNumber:_autoClusterNumber];
+            [self randomPickingCentersByNumber:_autoClusterNumber];
         }
         else
         {
