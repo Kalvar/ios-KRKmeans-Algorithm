@@ -6,6 +6,8 @@
 //  Copyright © 2015年 Kalvar. All rights reserved.
 //
 
+#warning 要參考 RBFNN 實作存入 NSUserDefaults
+
 #import "KRKmeansSaves.h"
 
 static NSString *kKRKmeansSavesCentersKey = @"kKRKmeansSavesCentersKey";

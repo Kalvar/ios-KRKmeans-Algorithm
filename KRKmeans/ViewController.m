@@ -15,16 +15,16 @@
 
 @implementation ViewController (fixSamples)
 
--(void)oneDemensional
+-(void)oneDemensionalClustering
 {
     //One dimensional K-Means, the data set is any number means.
-    KRKmeansOne *_krKmeansOne = [KRKmeansOne sharedKmeans];
-    _krKmeansOne.sources      = @[@0.33, @0.88, @1, @0.52, @146, @120, @45, @43, @0.4];
+    KRKmeansOne *kmeansOne = [KRKmeansOne sharedKmeans];
+    kmeansOne.sources      = @[@0.33, @0.88, @1, @0.52, @146, @120, @45, @43, @0.4];
     
     //If you wanna customize the median value
     //_krKmeansOne.customMedian = 45.0f;
     
-    [_krKmeansOne clusteringWithCompletion:^(BOOL success, float knowledgeLine, NSArray *maxClusters, NSArray *minClusters, NSArray *midClusters, NSDictionary *overlappings)
+    [kmeansOne clusteringWithCompletion:^(BOOL success, float knowledgeLine, NSArray *maxClusters, NSArray *minClusters, NSArray *midClusters, NSDictionary *overlappings)
     {
         NSLog(@"knowledgeLine : %f", knowledgeLine);
         NSLog(@"maxClusters : %@", maxClusters);
@@ -54,41 +54,38 @@
      */
 }
 
--(void)twoDemensional
+-(void)multiClustering
 {
-    // Two dimesional K-Means, the data set is (x, y)
-    KRKmeans *_krKmeans       = [KRKmeans sharedKmeans];
-    _krKmeans.doneThenSave    = YES;
+    KRKmeans *kmeans     = [KRKmeans sharedKmeans];
+    kmeans.saveAfterDone = YES;
+    kmeans.maxIteration  = 10;
     
-    // Set to use 2 points of Euclidean Distance method that performance is better
-    _krKmeans.distanceFormula = KRKmeansDistanceFormulaEuclidean; // KRKmeansDistanceFormulaByCosine
-    
-    // It means A sets. ( and the centers will be calculated here. )
-    [_krKmeans addSets:@[@[@1, @1], @[@1, @2], @[@2, @2], @[@3, @2], @[@3, @1]]];
-    
-    // It means B sets.
-    [_krKmeans addSets:@[@[@6, @4], @[@7, @6], @[@5, @6], @[@6, @5]]];
-    
-    // It means C sets and the center.
-    [_krKmeans addSets:@[@[@7, @8]]];
-    
-    // It means D sets.
-    [_krKmeans addSets:@[@[@3, @12], @[@5, @20]]];
-    
-    // It means X sets which wanna be clustered, if you don't setup this, the KRKmeans will cluster the original sets to be new groups.
-    [_krKmeans addPatterns:@[@[@5, @4], @[@3, @4], @[@2, @5], @[@9, @8], @[@3, @20]]];
-    
-    [_krKmeans clusteringWithCompletion:^(BOOL success, NSArray *clusters, NSArray *centers, NSInteger totalTimes)
+    // Adding patterns
+    NSArray *patterns = @[@[@5, @4], @[@3, @4], @[@2, @5], @[@9, @8], @[@3, @20],
+                          @[@1, @1], @[@1, @2], @[@2, @2], @[@3, @2], @[@3, @1],
+                          @[@6, @4], @[@7, @6], @[@5, @6], @[@6, @5], @[@7, @8],
+                          @[@3, @12], @[@5, @20]];
+    NSInteger index   = -1;
+    for( NSArray *features in patterns )
     {
+        index += 1;
+        NSString *patternId      = [NSString stringWithFormat:@"%li", index];
+        KRKmeansPattern *pattern = [kmeans createPatternWithFeatures:features patternId:patternId];
+        [kmeans addPattern:pattern];
+    }
+    
+    [kmeans randomChooseCenters:3];
+    [kmeans setKernel:KRKmeansKernelEuclidean];
+    
+    [kmeans clusteringWithCompletion:^(BOOL success, KRKmeans *kmeansObject, NSInteger totalTimes) {
         NSLog(@"totalTimes : %li", totalTimes);
-        NSLog(@"clusters : %@", clusters);
-        NSLog(@"centers : %@", centers);
-        NSLog(@"SSE : %lf", [_krKmeans calculateSSE]);
-        //[_krKmeans printResults];
-    } perIteration:^(NSInteger times, NSArray *clusters, NSArray *centers)
-    {
+        NSLog(@"featuresOfCenters : %@", kmeansObject.featuresOfCenters);
+        NSLog(@"centers objects: %@", kmeansObject.centers);
+        NSLog(@"SSE : %lf", kmeansObject.sse);
+    } perIteration:^(NSInteger times, KRKmeans *kmeansObject, BOOL *pause) {
         NSLog(@"times : %li", times);
     }];
+    
     /*
      Output :
      
@@ -108,85 +105,37 @@
      */
 }
 
-// Recalling the tranined groups to directly classify patterns
--(void)recallingTraninedCenters
-{
-    KRKmeans *_krKmeans = [KRKmeans sharedKmeans];
-    [_krKmeans recallCenters];
-    [_krKmeans addPatterns:@[@[@21, @12], @[@13, @21], @[@12, @5], @[@3, @8]]];
-    [_krKmeans directClusterWithCompletion:^(BOOL success, NSArray *clusters, NSArray *centers, NSInteger totalTimes) {
-        [_krKmeans printResults];
-    }];
-}
+//// Recalling the tranined groups to directly classify patterns
+//-(void)recallingTraninedCenters
+//{
+//    KRKmeans *_krKmeans = [KRKmeans sharedKmeans];
+//    [_krKmeans recallCenters];
+//    [_krKmeans addPatterns:@[@[@21, @12], @[@13, @21], @[@12, @5], @[@3, @8]]];
+//    [_krKmeans predicateWithCompletion:^(BOOL success, NSArray *clusters, NSArray *centers, NSInteger totalTimes) {
+//        [_krKmeans printResults];
+//    }];
+//}
 
--(void)multiDemensional
-{
-    // Multi-Dimensional K-Means
-    KRKmeans *_multiKmeans    = [[KRKmeans alloc] init];
-    _multiKmeans.doneThenSave = YES;
-    
-    // Suggests to use Cosine Similarity doing multi-dimensional clustering
-    _multiKmeans.distanceFormula = KRKmeansDistanceFormulaRBF; // KRKmeansDistanceFormulaCosine; // KRKmeansDistanceFormulaByEuclidean
-    
-    // A sets
-    [_multiKmeans addSets:@[@[@20, @9, @1, @3, @6, @2], @[@52, @32, @18, @7, @0, @1], @[@30, @18, @2, @27, @18, @5]]];
-    
-    // B sets
-    [_multiKmeans addSets:@[@[@2, @20, @15, @5, @9, @16], @[@7, @11, @2, @12, @1, @0]]];
-    
-    // Clustering pattern-samples
-    [_multiKmeans addPatterns:@[@[@20, @1, @10, @2, @12, @3], @[@20, @8, @3, @21, @8, @25], @[@2, @30, @8, @6, @33, @29]]];
-    [_multiKmeans addPatterns:@[@[@10, @3, @5, @12, @9, @8], @[@2, @1, @9, @30, @28, @13], @[@22, @50, @43, @22, @11, @2]]];
-    [_multiKmeans addPatterns:@[@[@18, @10, @20, @42, @32, @13], @[@5, @4, @28, @16, @3, @9]]];
-    
-    [_multiKmeans clusteringWithCompletion:^(BOOL success, NSArray *clusters, NSArray *centers, NSInteger totalTimes)
-    {
-        NSLog(@"totalTimes : %li", totalTimes);
-        NSLog(@"clusters : %@", clusters);
-        NSLog(@"centers : %@", centers);
-        NSLog(@"SSE : %lf", [_multiKmeans calculateSSE]);
-        [_multiKmeans directClusterPatterns:@[@[@21, @9, @3, @11, @7, @15]] completion:^(BOOL success, NSArray *clusters, NSArray *centers, NSInteger totalTimes)
-        {
-            [_multiKmeans printResults];
-        }];
-    } perIteration:^(NSInteger times, NSArray *clusters, NSArray *centers)
-    {
-        NSLog(@"times : %li", times);
-    }];
-}
-
-// Following [self twoDemensional] that classified clusters to direct clustering new patterns.
--(void)directClustering
-{
-    KRKmeans *_kmeans       = [KRKmeans sharedKmeans];
-    _kmeans.distanceFormula = KRKmeansDistanceFormulaEuclidean;
-    [_kmeans addPatterns:@[@[@7, @11], @[@18, @6]]];
-    [_kmeans directClusterWithCompletion:^(BOOL success, NSArray *clusters, NSArray *centers, NSInteger totalTimes)
-    {
-        [_kmeans printResults];
-    }];
-}
-
--(void)randomClustering
-{
-    KRKmeans *_krKmeans         = [[KRKmeans alloc] init];
-    _krKmeans.doneThenSave      = YES;
-    _krKmeans.distanceFormula   = KRKmeansDistanceFormulaEuclidean; // KRKmeansDistanceFormulaByCosine
-    _krKmeans.autoClusterNumber = 3;
-    [_krKmeans addPatterns:@[@[@1, @1], @[@1, @2], @[@2, @2], @[@3, @2],
-                             @[@3, @1], @[@5, @4], @[@3, @4], @[@2, @5],
-                             @[@9, @8], @[@3, @20], @[@6, @4], @[@7, @6],
-                             @[@5, @6], @[@6, @5], @[@7, @8], @[@3, @12],
-                             @[@5, @20]]];
-    [_krKmeans clusteringWithCompletion:^(BOOL success, NSArray *clusters, NSArray *centers, NSInteger totalTimes) {
-        NSLog(@"totalTimes : %li", totalTimes);
-        NSLog(@"clusters : %@", clusters);
-        NSLog(@"centers : %@", centers);
-        NSLog(@"SSE : %lf", [_krKmeans calculateSSE]);
-    } perIteration:^(NSInteger times, NSArray *clusters, NSArray *centers) {
-        NSLog(@"times : %li", times);
-    }];
-}
+//-(void)randomClustering
+//{
+//    KRKmeans *kmeans      = [[KRKmeans alloc] init];
+//    kmeans.saveAfterDone  = YES;
+//    kmeans.kernelFormula  = KRKmeansKernelEuclidean;
+//    [kmeans addPatterns:@[@[@1, @1], @[@1, @2], @[@2, @2], @[@3, @2],
+//                             @[@3, @1], @[@5, @4], @[@3, @4], @[@2, @5],
+//                             @[@9, @8], @[@3, @20], @[@6, @4], @[@7, @6],
+//                             @[@5, @6], @[@6, @5], @[@7, @8], @[@3, @12],
+//                             @[@5, @20]]];
+//    [kmeans randomChooseCenters:3]; // 自動由 Patterns 裡隨機選 3 個點 (分 3 群), 如果 number 設 0, 代表自動隨機分群
+//    [kmeans clusteringWithCompletion:^(BOOL success, KRKmeans *kmeansObject, NSInteger totalTimes) {
+//        NSLog(@"totalTimes : %li", totalTimes);
+//        NSLog(@"featuresOfCenters : %@", kmeansObject.featuresOfCenters);
+//        NSLog(@"centers objects: %@", kmeansObject.centers);
+//        NSLog(@"SSE : %lf", kmeansObject.sse);
+//    } perIteration:^(NSInteger times, KRKmeans *kmeansObject, BOOL *pause) {
+//        NSLog(@"times : %li", times);
+//    }];
+//}
 
 @end
 
@@ -195,13 +144,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self oneDemensional];
-    [self twoDemensional];
-    [self recallingTraninedCenters];
-    [self multiDemensional];
-    [self directClustering];
-    [self randomClustering];
-    
+    //[self oneDemensionalClustering];
+    [self multiClustering];
+    //[self randomClustering];
 }
 
 - (void)didReceiveMemoryWarning

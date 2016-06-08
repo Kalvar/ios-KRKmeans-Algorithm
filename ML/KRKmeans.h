@@ -33,16 +33,10 @@
 
 #import <Foundation/Foundation.h>
 #import "KRKmeansOne.h"
+#import "KRKmeansKernel.h"
+#import "KRKmeansGroup.h"
 
-typedef enum KRKmeansDistanceFormula
-{
-    // Distance formula by Cosine Similarity
-    KRKmeansDistanceFormulaCosine    = 0,
-    // Distance formula by Euclidean Distance
-    KRKmeansDistanceFormulaEuclidean = 1,
-    // Distance formula by RBF
-    KRKmeansDistanceFormulaRBF       = 2
-}KRKmeansDistanceFormula;
+@class KRKmeans;
 
 /*
  * @ 訓練完成時
@@ -51,7 +45,7 @@ typedef enum KRKmeansDistanceFormula
  *   - centrals    : 群聚中心點
  *   - totalTimes  : 共迭代了幾次即達到收斂
  */
-typedef void(^KRKmeansClusteringCompletion)(BOOL success, NSArray *clusters, NSArray *centers, NSInteger totalTimes);
+typedef void(^KRKmeansClusteringCompletion)(BOOL success, KRKmeans *kmeansObject, NSInteger totalTimes);
 
 /*
  * @ 每一次的迭代資料
@@ -59,58 +53,60 @@ typedef void(^KRKmeansClusteringCompletion)(BOOL success, NSArray *clusters, NSA
  *   - clusters    : 本次的分群結果
  *   - centers     : 本次的群聚中心點
  */
-typedef void(^KRKmeansPerIteration)(NSInteger times, NSArray *clusters, NSArray *centers);
+typedef void(^KRKmeansPerIteration)(NSInteger times, KRKmeans *kmeansObject, BOOL *pause);
 
 @interface KRKmeans : NSObject
 
-//要訓練分群用的集合樣本
-@property (nonatomic, strong) NSMutableArray *sets;
-//每一群的中心點
-@property (nonatomic, strong) NSMutableArray *centers;
-//要分群的集合數據
-@property (nonatomic, strong) NSMutableArray *patterns;
-//分群結果
-@property (nonatomic, strong) NSMutableArray *results;
-//收斂誤差
-@property (nonatomic, assign) float convergenceError;
-//迭代運算上限次數
+// 每一個分類好的群聚
+@property (nonatomic, strong) NSMutableArray <KRKmeansGroup *> *classifiedGroups;
+// 要分群的集合數據
+@property (nonatomic, strong) NSMutableArray <KRKmeansPattern *> *patterns;
+// 每群的中心點物件
+@property (nonatomic, readonly) NSArray <KRKmeansCenter *> *centers;
+// 每群的中心點特幑值
+@property (nonatomic, readonly) NSArray <NSArray *> *featuresOfCenters;
+// 收斂誤差
+@property (nonatomic, assign) double convergenceError;
+// 迭代運算上限次數
 @property (nonatomic, assign) NSInteger maxIteration;
-//要用哪個公式進行多維度分群
-@property (nonatomic, assign) KRKmeansDistanceFormula distanceFormula;
-//訓練完是否自動儲存
-@property (nonatomic, assign) BOOL doneThenSave;
-//Auto clustering numbers (要自動分成幾群)
-@property (nonatomic, assign) NSInteger autoClusterNumber;
+// 訓練完後是否自動儲存
+@property (nonatomic, assign) BOOL saveAfterDone;
 // If we used RBF be the kernel that can setup this considition
-@property (nonatomic, assign) float sigma;
+@property (nonatomic, assign) double sigma;
+@property (nonatomic, readonly) double sse;
+@property (nonatomic, readonly) BOOL isPaused;
 
 @property (nonatomic, copy) KRKmeansClusteringCompletion clusterCompletion;
 @property (nonatomic, copy) KRKmeansPerIteration perIteration;
 
-+(instancetype)sharedKmeans;
--(instancetype)init;
++ (instancetype)sharedKmeans;
+- (instancetype)init;
 
--(NSArray *)calculateSetsCenters:(NSArray *)_someSets;
--(void)randomPickingCentersByNumber:(NSInteger)_pickNumber;
+- (KRKmeansPattern *)createPatternWithFeatures:(NSArray <NSNumber *> *)features patternId:(NSString *)patternId;
+- (KRKmeansCenter *)createCenterWithFeatures:(NSArray <NSNumber *> *)features centerId:(NSString *)centerId;
+- (KRKmeansGroup *)createGroupWithCenter:(KRKmeansCenter *)groupCenter ownPatterns:(NSArray <KRKmeansPattern *> *)groupPatterns groupId:(NSString *)groupId;
 
--(void)directClusterWithCompletion:(KRKmeansClusteringCompletion)_completion;
--(void)directClusterPatterns:(NSArray *)_newPatterns completion:(KRKmeansClusteringCompletion)_completion;
--(void)directCluster;
+- (void)addGroup:(KRKmeansGroup *)group copy:(BOOL)copy;
+- (void)addGroup:(KRKmeansGroup *)group;
+- (void)addPattern:(KRKmeansPattern *)pattern forGroupId:(NSString *)groupId;
+- (void)addPattern:(KRKmeansPattern *)pattern;
+- (void)addPatterns:(NSArray <KRKmeansPattern *> *)samples;
+- (void)addPatternWithFeatures:(NSArray <NSNumber *> *)features patternId:(NSString *)patternId;
 
--(void)clusteringWithCompletion:(KRKmeansClusteringCompletion)_completion perIteration:(KRKmeansPerIteration)_generation;
--(void)clusteringWithCompletion:(KRKmeansClusteringCompletion)_completion;
--(void)clustering;
+- (void)randomChooseCenters:(NSInteger)chooseNumber; // 隨機選取中心點
+- (void)predicatePatterns:(NSArray <KRKmeansPattern *> *)samples completion:(KRKmeansClusteringCompletion)completion;
+- (void)clusteringWithCompletion:(KRKmeansClusteringCompletion)completion perIteration:(KRKmeansPerIteration)iteration;
 
--(double)calculateSSE;
+- (void)pause;
+- (void)restart;
 
--(void)addSets:(NSArray *)_theSets;
--(void)addPatterns:(NSArray *)_theSets;
+- (void)recallCenters;
+- (void)printResults;
 
--(void)recallCenters;
--(void)printResults;
+- (void)setKernel:(KRKmeansKernels)kernel; // 要用哪個算法進行分類
 
-#pragma --mark Blocks
--(void)setClusterCompletion:(KRKmeansClusteringCompletion)_theBlock;
--(void)setPerIteration:(KRKmeansPerIteration)_theBlock;
+#pragma mark - Blocks
+- (void)setClusterCompletion:(KRKmeansClusteringCompletion)block;
+- (void)setPerIteration:(KRKmeansPerIteration)block;
 
 @end
