@@ -9,7 +9,7 @@
 #import "KRKmeansCenter.h"
 #import "KRKmeansKernel.h"
 
-@interface KRKmeansGroup : NSObject
+@interface KRKmeansGroup : NSObject<NSCoding>
 
 // 群組的代表 ID
 @property (nonatomic, strong) NSString *identifier;

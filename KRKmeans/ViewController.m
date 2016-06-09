@@ -57,6 +57,7 @@
 -(void)multiClustering
 {
     KRKmeans *kmeans     = [KRKmeans sharedKmeans];
+    kmeans.modelKey      = @"MyKmeans1";
     kmeans.saveAfterDone = YES;
     kmeans.maxIteration  = 10;
     
@@ -69,7 +70,7 @@
     for( NSArray *features in patterns )
     {
         index += 1;
-        NSString *patternId      = [NSString stringWithFormat:@"%li", index];
+        NSString *patternId      = [NSString stringWithFormat:@"Training_%li", index];
         KRKmeansPattern *pattern = [kmeans createPatternWithFeatures:features patternId:patternId];
         [kmeans addPattern:pattern];
     }
@@ -86,56 +87,31 @@
         NSLog(@"times : %li", times);
     }];
     
-    /*
-     Output :
-     
-         Center Point of Sets :
-         
-             A Sets : (2.142857, 2.428571)
-             B Sets : (5.8, 5)
-             C Sets : (8, 8)
-             D Sets : (3.666667, 17.33333)
-         
-         Results :
-         
-             A Sets : (1, 1) (1, 2) (2, 2) (3, 2) (3, 1) (3, 4) (2, 5)
-             B Sets : (6, 4) (7, 6) (5, 6) (6, 5) (5, 4)
-             C Sets : (7, 8) (9, 8)
-             D Sets : (3, 12) (5, 20) (3, 20)
-     */
 }
 
-//// Recalling the tranined groups to directly classify patterns
-//-(void)recallingTraninedCenters
-//{
-//    KRKmeans *_krKmeans = [KRKmeans sharedKmeans];
-//    [_krKmeans recallCenters];
-//    [_krKmeans addPatterns:@[@[@21, @12], @[@13, @21], @[@12, @5], @[@3, @8]]];
-//    [_krKmeans predicateWithCompletion:^(BOOL success, NSArray *clusters, NSArray *centers, NSInteger totalTimes) {
-//        [_krKmeans printResults];
-//    }];
-//}
-
-//-(void)randomClustering
-//{
-//    KRKmeans *kmeans      = [[KRKmeans alloc] init];
-//    kmeans.saveAfterDone  = YES;
-//    kmeans.kernelFormula  = KRKmeansKernelEuclidean;
-//    [kmeans addPatterns:@[@[@1, @1], @[@1, @2], @[@2, @2], @[@3, @2],
-//                             @[@3, @1], @[@5, @4], @[@3, @4], @[@2, @5],
-//                             @[@9, @8], @[@3, @20], @[@6, @4], @[@7, @6],
-//                             @[@5, @6], @[@6, @5], @[@7, @8], @[@3, @12],
-//                             @[@5, @20]]];
-//    [kmeans randomChooseCenters:3]; // 自動由 Patterns 裡隨機選 3 個點 (分 3 群), 如果 number 設 0, 代表自動隨機分群
-//    [kmeans clusteringWithCompletion:^(BOOL success, KRKmeans *kmeansObject, NSInteger totalTimes) {
-//        NSLog(@"totalTimes : %li", totalTimes);
-//        NSLog(@"featuresOfCenters : %@", kmeansObject.featuresOfCenters);
-//        NSLog(@"centers objects: %@", kmeansObject.centers);
-//        NSLog(@"SSE : %lf", kmeansObject.sse);
-//    } perIteration:^(NSInteger times, KRKmeans *kmeansObject, BOOL *pause) {
-//        NSLog(@"times : %li", times);
-//    }];
-//}
+// Recovering the tranined groups to directly classify patterns.
+-(void)predicatingByTrainedModel
+{
+    KRKmeans *kmeans = [KRKmeans sharedKmeans];
+    [kmeans recoverGroupsForKey:@"MyKmeans1"];
+    
+    NSMutableArray *samples = [NSMutableArray new];
+    NSArray *patterns       = @[@[@21, @12], @[@13, @21], @[@12, @5], @[@3, @8]];
+    NSInteger index         = -1;
+    for( NSArray *features in patterns )
+    {
+        index += 1;
+        NSString *patternId      = [NSString stringWithFormat:@"Predication_%li", index];
+        KRKmeansPattern *pattern = [kmeans createPatternWithFeatures:features patternId:patternId];
+        [samples addObject:pattern];
+    }
+    
+    [kmeans predicatePatterns:samples completion:^(BOOL success, KRKmeans *kmeansObject, NSInteger totalTimes) {
+        NSLog(@"\n\n====================== Predication ===========================\n\n");
+        [kmeansObject printResults];
+    }];
+    
+}
 
 @end
 
@@ -144,9 +120,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    //[self oneDemensionalClustering];
+    [self oneDemensionalClustering];
     [self multiClustering];
-    //[self randomClustering];
+    [self predicatingByTrainedModel];
 }
 
 - (void)didReceiveMemoryWarning

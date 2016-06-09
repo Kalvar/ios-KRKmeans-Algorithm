@@ -8,6 +8,29 @@
 
 #import "KRKmeansKernel.h"
 
+@interface KRKmeansKernel ()
+
+@property (nonatomic, weak) NSCoder *coder;
+
+@end
+
+@implementation KRKmeansKernel (NSCoding)
+
+- (void)encodeObject:(id)object forKey:(NSString *)key
+{
+    if( nil != object )
+    {
+        [self.coder encodeObject:object forKey:key];
+    }
+}
+
+- (id)decodeForKey:(NSString *)key
+{
+    return [self.coder decodeObjectForKey:key];
+}
+
+@end
+
 @implementation KRKmeansKernel
 
 - (instancetype)initWithKernel:(KRKmeansKernels)useKernel
@@ -104,5 +127,26 @@
 {
     return ( arc4random() / ( RAND_MAX * 2.0f ) ) * (_maxValue - _minValue) + _minValue;;
 }
+
+#pragma --mark NSCoding
+-(void)encodeWithCoder:(NSCoder *)aCoder
+{
+    self.coder = aCoder;
+    [self encodeObject:@(_kernel) forKey:@"kernel"];
+    [self encodeObject:@(_sigma) forKey:@"sigma"];
+}
+
+-(instancetype)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super init];
+    if(self)
+    {
+        self.coder = aDecoder;
+        _kernel    = [[self decodeForKey:@"kernel"] integerValue];
+        _sigma     = [[self decodeForKey:@"sigma"] doubleValue];
+    }
+    return self;
+}
+
 
 @end

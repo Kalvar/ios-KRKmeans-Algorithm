@@ -11,6 +11,24 @@
 @interface KRKmeansGroup ()
 
 @property (nonatomic, strong) KRKmeansKernel *calculator;
+@property (nonatomic, weak) NSCoder *coder;
+
+@end
+
+@implementation KRKmeansGroup (NSCoding)
+
+- (void)encodeObject:(id)object forKey:(NSString *)key
+{
+    if( nil != object )
+    {
+        [self.coder encodeObject:object forKey:key];
+    }
+}
+
+- (id)decodeForKey:(NSString *)key
+{
+    return [self.coder decodeObjectForKey:key];
+}
 
 @end
 
@@ -165,4 +183,31 @@
     return _calculator ? _calculator.sigma : 0.0f;
 }
 
+#pragma --mark NSCoding
+-(void)encodeWithCoder:(NSCoder *)aCoder
+{
+    self.coder = aCoder;
+    [self encodeObject:_identifier forKey:@"identifier"];
+    [self encodeObject:_center forKey:@"center"];
+    [self encodeObject:_calculator forKey:@"calculator"]; // Kernel & Sigma are use in KRKmeansKernel.
+}
+
+-(instancetype)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super init];
+    if(self)
+    {
+        self.coder  = aDecoder;
+        _identifier = [self decodeForKey:@"identifier"];
+        _center     = [self decodeForKey:@"center"];
+        _calculator = [self decodeForKey:@"calculator"];
+        
+        // Don't forget to alloc new memory for them since we didn't save it with self.coder before.
+        _patterns   = [NSMutableArray new];
+    }
+    return self;
+}
+
 @end
+
+

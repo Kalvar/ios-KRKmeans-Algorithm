@@ -18,7 +18,7 @@ typedef NS_ENUM(NSInteger, KRKmeansKernels)
     KRKmeansKernelRBF       = 2
 };
 
-@interface KRKmeansKernel : NSObject
+@interface KRKmeansKernel : NSObject<NSCoding>
 
 @property (nonatomic, assign) KRKmeansKernels kernel;
 @property (nonatomic, assign) double sigma;

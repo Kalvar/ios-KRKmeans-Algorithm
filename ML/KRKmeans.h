@@ -38,25 +38,14 @@
 
 @class KRKmeans;
 
-/*
- * @ 訓練完成時
- *   - success     : 是否訓練成功
- *   - centers     : 分群結果
- *   - centrals    : 群聚中心點
- *   - totalTimes  : 共迭代了幾次即達到收斂
- */
 typedef void(^KRKmeansClusteringCompletion)(BOOL success, KRKmeans *kmeansObject, NSInteger totalTimes);
-
-/*
- * @ 每一次的迭代資料
- *   - times       : 第幾迭代運算
- *   - clusters    : 本次的分群結果
- *   - centers     : 本次的群聚中心點
- */
 typedef void(^KRKmeansPerIteration)(NSInteger times, KRKmeans *kmeansObject, BOOL *pause);
 
 @interface KRKmeans : NSObject
 
+// This modelKey used in saving that tained groups in KRKmeansSaver,
+// If it is nil or @"" before saving k-means trained groups, this modelKey will be automatic created by milliseconds of current timestamp.
+@property (nonatomic, strong) NSString *modelKey;
 // 每一個分類好的群聚
 @property (nonatomic, strong) NSMutableArray <KRKmeansGroup *> *classifiedGroups;
 // 要分群的集合數據
@@ -100,7 +89,7 @@ typedef void(^KRKmeansPerIteration)(NSInteger times, KRKmeans *kmeansObject, BOO
 - (void)pause;
 - (void)restart;
 
-- (void)recallCenters;
+- (void)recoverGroupsForKey:(NSString *)saveKey;
 - (void)printResults;
 
 - (void)setKernel:(KRKmeansKernels)kernel; // 要用哪個算法進行分類

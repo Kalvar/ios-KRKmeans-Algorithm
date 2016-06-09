@@ -8,14 +8,14 @@
 
 #import "KRKmeans.h"
 #import "NSArray+Statistics.h"
-#import "KRKmeansSaves.h"
+#import "KRKmeansSaver.h"
 
 @interface KRKmeans ()
 
 // 當前的迭代數
 @property (nonatomic, assign) NSInteger currentIteration;
 // 儲存訓練好的群心
-@property (nonatomic, strong) KRKmeansSaves *saver;
+@property (nonatomic, strong) KRKmeansSaver *saver;
 @property (nonatomic, strong) KRKmeansKernel *kernel;
 
 @end
@@ -62,6 +62,7 @@
 {
     if( self.perIteration )
     {
+        // TODO: the *pause BOOL implmentation ... if possible
         self.perIteration(self.currentIteration, self, self.isPaused);
     }
 }
@@ -136,14 +137,13 @@
     }];
     
     // abs(當前中心點最大距離上次距離的誤差) <= 收斂值 || 迭代運算到了限定次數 ( 避免 Memory Leak )
-    if( self.currentIteration >= self.maxIteration )
+    if( fabs(differenceDistance) <= self.convergenceError || self.currentIteration >= self.maxIteration )
     {
         // 已達收斂條件
-        //NSLog(@"收斂迭代[%li], 前後中心點距離誤差 %f", self.currentIteration, differenceDistance);
+        NSLog(@"收斂迭代[%li], 前後中心點距離誤差 %f", self.currentIteration, differenceDistance);
         if( self.saveAfterDone )
         {
-//#error 要來補上 saveCenters ...
-            //[self.saver saveCenters:self.centers];
+            [self.saver save:self.classifiedGroups forKey:self.modelKey];
         }
         [self operateCompletionBlockForSuccess:YES];
     }
@@ -185,7 +185,7 @@
         
         _currentIteration   = 0;
         
-        _saver              = [[KRKmeansSaves alloc] init];
+        _saver              = [[KRKmeansSaver alloc] init];
         _kernel             = [[KRKmeansKernel alloc] init];
         
         _isPaused           = NO;
@@ -333,20 +333,18 @@
 }
 
 #pragma mark - Results
-// Recalling trained centers which saved in KRKmeansSaves
-- (void)recallCenters
+// Recovering that trained groups from KRKmeansSaver for self.identifier (the model key).
+- (void)recoverGroupsForKey:(NSString *)saveKey
 {
-    NSArray *savedCenters = [_saver fetchCenters];
-    if( nil != savedCenters )
-    {
-        // TODO:
-    }
+    NSMutableArray <KRKmeansGroup *> *savedGroups = [_saver objectForKey:saveKey];
+    [_classifiedGroups removeAllObjects];
+    [_classifiedGroups addObjectsFromArray:savedGroups];
 }
 
 - (void)printResults
 {
     [_classifiedGroups enumerateObjectsUsingBlock:^(KRKmeansGroup * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        NSLog(@"Clustering Group ID is %@, its own patterns are : ", obj.identifier);
+        NSLog(@"Clustering Group ID is %@, its own patterns are as below :", obj.identifier);
         NSLog(@"Center ID is %@, its features are %@", obj.center.identifier, obj.center.features);
         [obj.patterns enumerateObjectsUsingBlock:^(KRKmeansPattern * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             NSLog(@"Pattern ID is %@", obj.identifier);
@@ -375,6 +373,16 @@
 }
 
 #pragma mark - Getters
+- (NSString *)modelKey
+{
+    if( nil == _modelKey || [_modelKey length] == 0 )
+    {
+        // Using that milliseconds timestamp to be identifier of this k-means model.
+        _modelKey = [NSString stringWithFormat:@"%lf", [[NSDate date] timeIntervalSince1970] * 1000.0f];
+    }
+    return _modelKey;
+}
+
 - (NSArray <KRKmeansCenter *> *)centers
 {
     if( _classifiedGroups && [_classifiedGroups count] > 0 )
