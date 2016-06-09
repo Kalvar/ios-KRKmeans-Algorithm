@@ -25,6 +25,11 @@
     [self.features addObject:[oneFeature copy]];
 }
 
+- (void)addFeaturesFromArray:(NSArray <NSNumber *> *)f
+{
+    [self.features addObjectsFromArray:f];
+}
+
 - (void)removeAllFeatures
 {
     [self.features removeAllObjects];

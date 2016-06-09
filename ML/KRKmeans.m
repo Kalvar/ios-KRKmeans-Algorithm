@@ -63,7 +63,12 @@
     if( self.perIteration )
     {
         // TODO: the *pause BOOL implmentation ... if possible
-        self.perIteration(self.currentIteration, self, self.isPaused);
+        BOOL pause = NO;
+        self.perIteration(self.currentIteration, self, &pause);
+        if( pause )
+        {
+            [self pause];
+        }
     }
 }
 
@@ -140,7 +145,7 @@
     if( fabs(differenceDistance) <= self.convergenceError || self.currentIteration >= self.maxIteration )
     {
         // 已達收斂條件
-        NSLog(@"收斂迭代[%li], 前後中心點距離誤差 %f", self.currentIteration, differenceDistance);
+        //NSLog(@"收斂迭代[%li], 前後中心點距離誤差 %f", self.currentIteration, differenceDistance);
         if( self.saveAfterDone )
         {
             [self.saver save:self.classifiedGroups forKey:self.modelKey];
@@ -354,7 +359,7 @@
     }];
 }
 
-- (void)setKernel:(KRKmeansKernels)kernel
+- (void)setupKernel:(KRKmeansKernels)kernel
 {
     [_classifiedGroups enumerateObjectsUsingBlock:^(KRKmeansGroup * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         obj.kernel = kernel;

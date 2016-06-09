@@ -8,13 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
+// Distance formula
 typedef NS_ENUM(NSInteger, KRKmeansKernels)
 {
-    // Distance formula by Cosine Similarity
+    // Cosine Similarity
     KRKmeansKernelCosine    = 0,
-    // Distance formula by Euclidean Distance
+    // Euclidean
     KRKmeansKernelEuclidean = 1,
-    // Distance formula by RBF
+    // Radial Basis Function
     KRKmeansKernelRBF       = 2
 };
 

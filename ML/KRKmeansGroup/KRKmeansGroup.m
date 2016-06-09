@@ -102,6 +102,7 @@
         dimensionSum /= patternCount;
         [_center addOneFeature:@(dimensionSum)];
     }
+
 }
 
 - (void)removeAllPatterns

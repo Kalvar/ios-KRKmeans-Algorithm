@@ -22,7 +22,7 @@
     kmeansOne.sources      = @[@0.33, @0.88, @1, @0.52, @146, @120, @45, @43, @0.4];
     
     //If you wanna customize the median value
-    //_krKmeansOne.customMedian = 45.0f;
+    //kmeansOne.customMedian = 45.0f;
     
     [kmeansOne clusteringWithCompletion:^(BOOL success, float knowledgeLine, NSArray *maxClusters, NSArray *minClusters, NSArray *midClusters, NSDictionary *overlappings)
     {
@@ -76,7 +76,12 @@
     }
     
     [kmeans randomChooseCenters:3];
-    [kmeans setKernel:KRKmeansKernelEuclidean];
+    
+    // @ Distance formula are :
+    // KRKmeansKernelCosine is Cosine Similarity
+    // KRKmeansKernelEuclidean is Euclidean
+    // KRKmeansKernelRBF is Radial Basis Function
+    [kmeans setupKernel:KRKmeansKernelEuclidean];
     
     [kmeans clusteringWithCompletion:^(BOOL success, KRKmeans *kmeansObject, NSInteger totalTimes) {
         NSLog(@"totalTimes : %li", totalTimes);
@@ -85,11 +90,13 @@
         NSLog(@"SSE : %lf", kmeansObject.sse);
     } perIteration:^(NSInteger times, KRKmeans *kmeansObject, BOOL *pause) {
         NSLog(@"times : %li", times);
+        // If you want to direct pause that next iteration running, then you could set :
+        //*pause = YES;
     }];
     
 }
 
-// Recovering the tranined groups to directly classify patterns.
+// Recovering the tranined groups to predicate patterns.
 -(void)predicatingByTrainedModel
 {
     KRKmeans *kmeans = [KRKmeans sharedKmeans];

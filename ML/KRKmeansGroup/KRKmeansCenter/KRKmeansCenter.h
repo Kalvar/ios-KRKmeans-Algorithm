@@ -12,6 +12,7 @@
 
 - (instancetype)initWithFeatures:(NSArray <NSNumber *> *)f identifier:(NSString *)i;
 - (void)addOneFeature:(NSNumber *)oneFeature;
+- (void)addFeaturesFromArray:(NSArray <NSNumber *> *)f;
 - (void)removeAllFeatures;
 
 @end
