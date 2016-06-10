@@ -12,7 +12,7 @@ pod "KRKmeans", "~> 2.6.1"
 
 ## How to use
 
-#### Imports "KRKmeans.h"
+#### Imports
 
 ``` objective-c
 #import "KRKmeans.h"
