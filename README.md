@@ -7,7 +7,7 @@ KRKmeans has implemented K-Means the clustering algorithm (クラスタリング
 
 ```ruby
 platform :ios, '7.0'
-pod "KRKmeans", "~> 2.6.0"
+pod "KRKmeans", "~> 2.6.1"
 ```
 
 ## How to use
@@ -20,10 +20,20 @@ pod "KRKmeans", "~> 2.6.0"
 
 ##### Distance Methods
 
+"KRKmeansKernelCosine" is Cosine Similarity.
+"KRKmeansKernelEuclidean" is Euclidean.
+"KRKmeansKernelRBF" is Radial Basis Function.
+
+#### Choosing Centers of Groups
+
 ``` objective-c
-// KRKmeansKernelCosine is Cosine Similarity.
-// KRKmeansKernelEuclidean is Euclidean.
-// KRKmeansKernelRBF is Radial Basis Function.
+// 1. Random choosing the centers of groups from patterns.
+[kmeans randomChooseCenters:3];
+
+// 2. Quickly customizing the groups and centers
+[kmeans addGroupForCenterFeatures:@[@2, @2] centerId:@"Center_1" groupId:@"Group_1"];
+[kmeans addGroupForCenterFeatures:@[@6, @5] centerId:@"Center_2" groupId:@"Group_2"];
+[kmeans addGroupForCenterFeatures:@[@3, @17] centerId:@"Center_3" groupId:@"Group_3"];
 ```
 
 #### One dimensonal clustering
@@ -78,13 +88,7 @@ The one dimensonal clustering.
     }
     
     [kmeans randomChooseCenters:3];
-    
-    // @ Distance formula are :
-    // KRKmeansKernelCosine is Cosine Similarity
-    // KRKmeansKernelEuclidean is Euclidean
-    // KRKmeansKernelRBF is Radial Basis Function
     [kmeans setupKernel:KRKmeansKernelEuclidean];
-    
     [kmeans clusteringWithCompletion:^(BOOL success, KRKmeans *kmeansObject, NSInteger totalTimes) {
         NSLog(@"totalTimes : %li", totalTimes);
         NSLog(@"featuresOfCenters : %@", kmeansObject.featuresOfCenters);
@@ -131,7 +135,7 @@ To recover that trained model to predicate the patterns.
 
 ## Version
 
-V2.6.0
+V2.6.1
 
 ## License
 

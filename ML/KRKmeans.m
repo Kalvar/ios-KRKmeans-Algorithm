@@ -228,6 +228,14 @@
     [self addGroup:group copy:NO];
 }
 
+// To create new group with custom center.
+- (void)addGroupForCenterFeatures:(NSArray <NSNumber *> *)centerFeatures centerId:(NSString *)centerId groupId:(NSString *)groupId
+{
+    KRKmeansCenter *center = [self createCenterWithFeatures:centerFeatures centerId:centerId];
+    KRKmeansGroup *group   = [self createGroupWithCenter:center ownPatterns:nil groupId:groupId];
+    [self addGroup:group];
+}
+
 - (void)addPattern:(KRKmeansPattern *)pattern forGroupId:(NSString *)groupId
 {
     if( nil == pattern )

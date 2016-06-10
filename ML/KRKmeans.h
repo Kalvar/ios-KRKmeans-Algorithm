@@ -52,6 +52,7 @@ typedef void(^KRKmeansPerIteration)(NSInteger times, KRKmeans *kmeansObject, BOO
 
 - (void)addGroup:(KRKmeansGroup *)group copy:(BOOL)copy;
 - (void)addGroup:(KRKmeansGroup *)group;
+- (void)addGroupForCenterFeatures:(NSArray <NSNumber *> *)centerFeatures centerId:(NSString *)centerId groupId:(NSString *)groupId;
 - (void)addPattern:(KRKmeansPattern *)pattern forGroupId:(NSString *)groupId;
 - (void)addPattern:(KRKmeansPattern *)pattern;
 - (void)addPatterns:(NSArray <KRKmeansPattern *> *)samples;

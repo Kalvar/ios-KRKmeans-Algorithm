@@ -75,7 +75,14 @@
         [kmeans addPattern:pattern];
     }
     
+    // @ About the groups and the centers that you have 2 methods to build :
+    // 1. Random choosing centers from patterns
     [kmeans randomChooseCenters:3];
+    
+    // 2. Quickly customizing the groups and centers
+    //[kmeans addGroupForCenterFeatures:@[@2, @2] centerId:@"Center_1" groupId:@"Group_1"];
+    //[kmeans addGroupForCenterFeatures:@[@6, @5] centerId:@"Center_2" groupId:@"Group_2"];
+    //[kmeans addGroupForCenterFeatures:@[@3, @17] centerId:@"Center_3" groupId:@"Group_3"];
     
     // @ Distance formula are :
     // KRKmeansKernelCosine is Cosine Similarity
