@@ -12,13 +12,13 @@ pod "KRKmeans", "~> 2.6.1"
 
 ## How to use
 
-##### Imports "KRKmeans.h"
+#### Imports "KRKmeans.h"
 
 ``` objective-c
 #import "KRKmeans.h"
 ```
 
-##### Distance Methods
+#### Distance Methods
 
 ``` objective-c
 "KRKmeansKernelCosine" is Cosine Similarity.
