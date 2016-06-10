@@ -20,9 +20,11 @@ pod "KRKmeans", "~> 2.6.1"
 
 ##### Distance Methods
 
+``` objective-c
 "KRKmeansKernelCosine" is Cosine Similarity.
 "KRKmeansKernelEuclidean" is Euclidean.
 "KRKmeansKernelRBF" is Radial Basis Function.
+```
 
 #### Choosing Centers of Groups
 
